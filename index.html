@@ -3,359 +3,388 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucius Rockwing — Showcase</title>
+  <title>Lucius Rockwing</title>
   <style>
-    /* ── Reset & Base ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --surface-2: #1a1a26;
-      --border: #2a2a3a;
-      --text: #e8e8f0;
-      --text-muted: #8888a0;
-      --accent: #6c5ce7;
-      --accent-glow: rgba(108, 92, 231, 0.4);
-      --accent-2: #00cec9;
-      --radius: 12px;
+      /* Apple Design Tokens */
+      --bg-dark: #000000;
+      --bg-light: #f5f5f7;
+      --text-primary-dark: #ffffff;
+      --text-primary-light: #1d1d1f;
+      --text-secondary-dark: #ffffff;
+      --text-secondary-light: rgba(0, 0, 0, 0.8);
+      --text-tertiary: rgba(0, 0, 0, 0.48);
+      --accent: #0071e3;
+      --link-light: #0066cc;
+      --link-dark: #2997ff;
+      --surface-dark-1: #272729;
+      --surface-dark-2: #1d1d1f;
+      --shadow-card: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-pill: 980px;
+      --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      --max-width: 980px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: var(--bg-dark);
+      color: var(--text-primary-dark);
+      line-height: 1.47;
       overflow-x: hidden;
     }
 
-    /* ── Ambient Background ── */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 20%, rgba(0, 206, 201, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(108, 92, 231, 0.04) 0%, transparent 50%);
-      z-index: -1;
-      animation: ambientDrift 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes ambientDrift {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(-2%, -1%) rotate(3deg); }
-    }
-
-    /* ── Navigation ── */
+    /* ── Navigation (Apple Glass) ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 1rem 2rem;
+      height: 48px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(10, 10, 15, 0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .logo {
-      font-size: 1.4rem; font-weight: 700;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary-dark);
+      letter-spacing: -0.374px;
+      text-decoration: none;
     }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
     .nav-links a {
-      color: var(--text-muted); text-decoration: none;
-      font-size: 0.9rem; font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 400;
       transition: color 0.3s;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover { color: #ffffff; }
 
-    /* ── Hero ── */
-    .hero {
-      min-height: 100vh;
+    /* ── Section Base ── */
+    section {
+      width: 100%;
+      padding: 7rem 2rem;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      text-align: center; padding: 6rem 2rem 4rem;
+      text-align: center;
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 0.8rem; color: var(--accent-2);
-      margin-bottom: 2rem;
+    section.dark { background: var(--bg-dark); color: var(--text-primary-dark); }
+    section.light { background: var(--bg-light); color: var(--text-primary-light); }
+
+    .container { max-width: var(--max-width); width: 100%; }
+
+    /* ── Typography (Apple Scale) ── */
+    .display-hero {
+      font-size: clamp(2rem, 6vw, 56px);
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      margin-bottom: 0.5rem;
     }
 
-    .hero-badge .dot {
-      width: 6px; height: 6px;
-      background: var(--accent-2);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
+    .section-heading {
+      font-size: clamp(1.75rem, 4vw, 40px);
+      font-weight: 600;
+      line-height: 1.10;
+      margin-bottom: 0.75rem;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.5); }
+    .tile-heading {
+      font-size: clamp(1.25rem, 2.5vw, 28px);
+      font-weight: 400;
+      line-height: 1.14;
+      letter-spacing: 0.196px;
+      margin-bottom: 0.5rem;
     }
 
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      font-weight: 800;
-      line-height: 1.1;
+    .sub-heading {
+      font-size: 21px;
+      font-weight: 400;
+      line-height: 1.19;
+      letter-spacing: 0.231px;
       margin-bottom: 1.5rem;
     }
 
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent));
-      background-size: 200% 200%;
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: shimmer 4s ease-in-out infinite;
+    .body-text {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
     }
 
-    @keyframes shimmer {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
+    .caption {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.29;
+      letter-spacing: -0.224px;
     }
 
-    .hero p {
-      max-width: 600px;
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-    }
+    .text-secondary { opacity: 0.8; }
+    .text-tertiary { opacity: 0.48; }
 
-    .hero-cta {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-    }
-
+    /* ── Buttons (Apple) ── */
     .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.8rem 1.8rem;
-      border-radius: 999px;
-      font-size: 0.95rem; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-family: var(--font);
       text-decoration: none;
       transition: all 0.3s;
       cursor: pointer; border: none;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #8b7cf7);
-      color: white;
-      box-shadow: 0 4px 20px var(--accent-glow);
+    .btn-blue {
+      background: var(--accent);
+      color: #ffffff;
+      padding: 8px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 17px; font-weight: 400;
+      line-height: 2.41;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px var(--accent-glow);
-    }
+    .btn-blue:hover { background: #0077ed; }
 
-    .btn-ghost {
+    .btn-dark {
+      background: var(--surface-dark-2);
+      color: #ffffff;
+      padding: 8px 15px;
+      border-radius: var(--radius-sm);
+      font-size: 17px; font-weight: 400;
+      line-height: 2.41;
+    }
+    .btn-dark:hover { background: #2a2a2d; }
+
+    .btn-pill {
       background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover {
-      background: var(--surface);
-      border-color: var(--accent);
-    }
-
-    /* ── Showcase Section ── */
-    .showcase {
-      padding: 6rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 14px; font-weight: 400;
+      line-height: 1.43;
+      letter-spacing: -0.224px;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
+    .btn-pill-light {
+      color: var(--link-light);
+      border: 1px solid var(--link-light);
     }
+    .btn-pill-light:hover { background: rgba(0, 113, 227, 0.08); }
 
-    .section-label {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--accent);
-      margin-bottom: 1rem;
+    .btn-pill-dark {
+      color: var(--link-dark);
+      border: 1px solid var(--link-dark);
     }
+    .btn-pill-dark:hover { background: rgba(41, 151, 255, 0.08); }
 
-    .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-    }
-
-    .section-header p {
-      max-width: 550px;
-      margin: 0 auto;
-      color: var(--text-muted);
-      font-size: 1.05rem;
-    }
-
-    /* ── Showcase Grid ── */
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .showcase-card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .showcase-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent);
-      box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
-    }
-
-    .card-preview {
-      height: 200px;
-      background: var(--surface-2);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-preview::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 60%, var(--surface));
-    }
-
-    .card-preview .placeholder-icon {
-      font-size: 3rem;
-      opacity: 0.3;
-      filter: grayscale(1);
-    }
-
-    .card-body {
-      padding: 1.5rem;
-    }
-
-    .card-tags {
-      display: flex; gap: 0.5rem; flex-wrap: wrap;
-      margin-bottom: 0.8rem;
-    }
-
-    .tag {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .tag-design { background: rgba(108, 92, 231, 0.15); color: var(--accent); }
-    .tag-dev { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
-    .tag-art { background: rgba(255, 107, 129, 0.15); color: #ff6b81; }
-    .tag-music { background: rgba(253, 203, 110, 0.15); color: #fdcb6e; }
-
-    .card-body h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-body p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-
-    .card-link {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-size: 0.85rem;
-      color: var(--accent);
+    .link-arrow {
+      color: var(--link-light);
       text-decoration: none;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: -0.224px;
+    }
+    .link-arrow:hover { text-decoration: underline; }
+    .link-arrow::after { content: ' ›'; }
+
+    .dark .link-arrow { color: var(--link-dark); }
+
+    .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+
+    /* ── Hero ── */
+    .hero { min-height: 100vh; padding-top: 10rem; }
+
+    .hero-overline {
+      font-size: 14px;
       font-weight: 600;
-      transition: gap 0.3s;
-    }
-    .card-link:hover { gap: 0.7rem; }
-
-    /* ── Featured (span 2 cols) ── */
-    .showcase-card.featured {
-      grid-column: span 2;
+      color: var(--accent);
+      letter-spacing: -0.224px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
     }
 
-    .showcase-card.featured .card-preview {
-      height: 280px;
+    .hero .sub-heading {
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    @media (max-width: 768px) {
-      .showcase-card.featured { grid-column: span 1; }
-      .showcase-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
-
-    /* ── Stats Bar ── */
-    .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 4rem;
-      padding: 3rem 2rem;
-      margin: 0 auto;
-      max-width: 900px;
+    /* ── Stats ── */
+    .stats-row {
+      display: flex; justify-content: center; gap: 4rem;
+      padding: 3rem 0;
       flex-wrap: wrap;
     }
 
-    .stat {
-      text-align: center;
-    }
-
     .stat-value {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: clamp(2rem, 4vw, 48px);
+      font-weight: 600;
+      line-height: 1.07;
+      letter-spacing: -0.28px;
+      color: var(--accent);
     }
 
     .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: 0.3rem;
+      margin-top: 0.25rem;
+      opacity: 0.48;
     }
+
+    /* ── Showcase Grid (Apple Product Tiles) ── */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+      margin-top: 3rem;
+    }
+
+    .tile {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tile:hover {
+      transform: scale(1.01);
+    }
+
+    .tile-preview {
+      height: 240px;
+      background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      opacity: 0.6;
+    }
+
+    .tile-body {
+      padding: 1.5rem;
+      text-align: left;
+    }
+
+    .tile-body .tile-heading {
+      color: var(--text-primary-light);
+    }
+
+    .tile-body p {
+      color: var(--text-secondary-light);
+      font-size: 14px;
+      line-height: 1.29;
+      letter-spacing: -0.224px;
+      margin-bottom: 1rem;
+    }
+
+    .tile-body .link-arrow { margin-right: 1rem; }
+
+    /* ── Featured Tile (wide) ── */
+    .tile-featured {
+      grid-column: 1 / -1;
+      background: var(--bg-dark);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+    }
+
+    .tile-featured .tile-preview {
+      background: var(--surface-dark-1);
+      height: 100%;
+      min-height: 400px;
+    }
+
+    .tile-featured .tile-body {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 3rem;
+      text-align: left;
+    }
+
+    .tile-featured .tile-heading {
+      color: var(--text-primary-dark);
+      font-size: clamp(1.5rem, 3vw, 28px);
+    }
+
+    .tile-featured p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 17px;
+      line-height: 1.47;
+      letter-spacing: -0.374px;
+    }
+
+    .tile-featured .link-arrow { color: var(--link-dark); }
+
+    /* Dark tile variant */
+    .tile-dark {
+      background: var(--surface-dark-1);
+    }
+
+    .tile-dark .tile-preview {
+      background: var(--surface-dark-2);
+    }
+
+    .tile-dark .tile-body .tile-heading { color: #ffffff; }
+    .tile-dark .tile-body p { color: rgba(255, 255, 255, 0.8); }
+    .tile-dark .tile-body .link-arrow { color: var(--link-dark); }
+
+    /* ── Contact Section ── */
+    .contact-links {
+      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .contact-links a {
+      color: var(--link-dark);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.374px;
+    }
+    .contact-links a:hover { text-decoration: underline; }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 3rem 2rem;
-      border-top: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 0.85rem;
+      padding: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
+    footer p {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: -0.12px;
+      color: rgba(255, 255, 255, 0.48);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .tile-featured { grid-template-columns: 1fr; }
+      .tile-featured .tile-preview { min-height: 250px; height: 250px; }
+      .tile-featured .tile-body { padding: 2rem; }
+      .stats-row { gap: 2rem; }
     }
 
     /* ── Scroll Reveal ── */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
     .reveal.visible {
       opacity: 1;
@@ -365,9 +394,9 @@
 </head>
 <body>
 
-  <!-- Nav -->
+  <!-- Navigation -->
   <nav>
-    <div class="logo">◆ LUCIUS</div>
+    <a href="#" class="logo">Lucius</a>
     <ul class="nav-links">
       <li><a href="#showcase">Showcase</a></li>
       <li><a href="#about">About</a></li>
@@ -375,163 +404,142 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-badge"><span class="dot"></span> Available for Projects</div>
-    <h1>
-      Building the<br>
-      <span class="gradient">Extraordinary</span>
-    </h1>
-    <p>A curated collection of projects, experiments, and creative works. Each piece crafted with intention, precision, and a touch of audacity.</p>
-    <div class="hero-cta">
-      <a href="#showcase" class="btn btn-primary">↓ Explore Showcase</a>
-      <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
+  <!-- Hero (Dark) -->
+  <section class="dark hero" id="about">
+    <div class="container">
+      <p class="hero-overline">Portfolio</p>
+      <h1 class="display-hero">Lucius Rockwing.</h1>
+      <p class="sub-heading">Crafting digital experiences with precision, purpose, and a relentless pursuit of the extraordinary.</p>
+      <div class="cta-group">
+        <a href="#showcase" class="btn btn-pill btn-pill-dark">View Showcase ›</a>
+        <a href="#contact" class="btn btn-blue">Get in Touch</a>
+      </div>
     </div>
   </section>
 
-  <!-- Stats -->
-  <div class="stats-bar reveal">
-    <div class="stat">
-      <div class="stat-value">7+</div>
-      <div class="stat-label">Projects</div>
+  <!-- Stats (Dark) -->
+  <section class="dark" style="padding: 2rem 2rem 5rem;">
+    <div class="container">
+      <div class="stats-row">
+        <div style="text-align:center;">
+          <div class="stat-value">7+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="stat-value">∞</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Creating</div>
+        </div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-value">∞</div>
-      <div class="stat-label">Curiosity</div>
+  </section>
+
+  <!-- Showcase (Light) -->
+  <section class="light" id="showcase">
+    <div class="container">
+      <h2 class="section-heading">Selected Works.</h2>
+      <p class="body-text text-secondary" style="max-width:550px; margin:0 auto;">A curated collection of projects and experiments.</p>
+
+      <div class="showcase-grid">
+
+        <!-- Featured (Full Width, Dark) -->
+        <div class="tile-featured reveal">
+          <div class="tile-preview">🚀</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Flagship Project</h3>
+            <p>The centerpiece — a bold fusion of design and engineering. Details coming soon as this vision takes shape.</p>
+            <div>
+              <a href="#" class="link-arrow">Learn more</a>
+              <a href="#" class="link-arrow">View</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tile 1 -->
+        <div class="tile reveal">
+          <div class="tile-preview">🎨</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Creative Experiment</h3>
+            <p>Exploring the boundary between code and canvas. Digital art through algorithms and imagination.</p>
+            <a href="#" class="link-arrow">Learn more</a>
+          </div>
+        </div>
+
+        <!-- Tile 2 (Dark) -->
+        <div class="tile tile-dark reveal">
+          <div class="tile-preview">⚡</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Tool / Utility</h3>
+            <p>Built to solve real problems with clean, efficient solutions. Function meets form.</p>
+            <a href="#" class="link-arrow">Learn more</a>
+          </div>
+        </div>
+
+        <!-- Tile 3 -->
+        <div class="tile reveal">
+          <div class="tile-preview">🎵</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Sound Design</h3>
+            <p>Sonic landscapes and audio experiments. Where rhythm meets technology.</p>
+            <a href="#" class="link-arrow">Learn more</a>
+          </div>
+        </div>
+
+        <!-- Tile 4 (Dark) -->
+        <div class="tile tile-dark reveal">
+          <div class="tile-preview">🔮</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Interactive Experience</h3>
+            <p>WebGL, animations, and immersive interfaces. The web as a creative medium.</p>
+            <a href="#" class="link-arrow">Learn more</a>
+          </div>
+        </div>
+
+        <!-- Tile 5 -->
+        <div class="tile reveal">
+          <div class="tile-preview">📐</div>
+          <div class="tile-body">
+            <h3 class="tile-heading">Open Source</h3>
+            <p>Contributing back to the community. Tools and libraries built for everyone.</p>
+            <a href="#" class="link-arrow">Learn more</a>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-value">24/7</div>
-      <div class="stat-label">Creating</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">1</div>
-      <div class="stat-label">Vision</div>
-    </div>
-  </div>
+  </section>
 
-  <!-- Showcase -->
-  <section class="showcase" id="showcase">
-    <div class="section-header reveal">
-      <span class="section-label">Showcase</span>
-      <h2>Selected Works</h2>
-      <p>A glimpse into what I've been building, designing, and dreaming up.</p>
-    </div>
-
-    <div class="showcase-grid">
-
-      <!-- Featured Card -->
-      <div class="showcase-card featured reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">🚀</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-design">Design</span>
-            <span class="tag tag-dev">Dev</span>
-          </div>
-          <h3>Flagship Project</h3>
-          <p>The centerpiece — a bold fusion of design and engineering. Details coming soon as this vision takes shape.</p>
-          <a href="#" class="card-link">View Details →</a>
-        </div>
+  <!-- Contact (Dark) -->
+  <section class="dark" id="contact">
+    <div class="container">
+      <h2 class="section-heading">Let's create something<br>extraordinary.</h2>
+      <p class="body-text text-secondary" style="max-width:500px; margin:0 auto;">Open to collaboration, creative projects, and bold ideas.</p>
+      <div class="contact-links">
+        <a href="mailto:hello@luciusrockwing.com">Email ›</a>
+        <a href="#">GitHub ›</a>
+        <a href="#">Twitter ›</a>
       </div>
-
-      <!-- Card 1 -->
-      <div class="showcase-card reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">🎨</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-art">Art</span>
-          </div>
-          <h3>Creative Experiment</h3>
-          <p>Exploring the boundary between code and canvas. Digital art pushed through algorithms and imagination.</p>
-          <a href="#" class="card-link">See More →</a>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="showcase-card reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">⚡</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-dev">Dev</span>
-          </div>
-          <h3>Tool / Utility</h3>
-          <p>Built to solve real problems with clean, efficient solutions. Function meets form.</p>
-          <a href="#" class="card-link">Try It →</a>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="showcase-card reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">🎵</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-music">Music</span>
-            <span class="tag tag-art">Art</span>
-          </div>
-          <h3>Sound Design</h3>
-          <p>Sonic landscapes and audio experiments. Where rhythm meets technology.</p>
-          <a href="#" class="card-link">Listen →</a>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="showcase-card reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">🔮</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-design">Design</span>
-            <span class="tag tag-dev">Dev</span>
-          </div>
-          <h3>Interactive Experience</h3>
-          <p>WebGL, animations, and immersive interfaces. The web as a creative medium.</p>
-          <a href="#" class="card-link">Explore →</a>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="showcase-card reveal">
-        <div class="card-preview">
-          <span class="placeholder-icon">📐</span>
-        </div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag tag-dev">Dev</span>
-          </div>
-          <h3>Open Source</h3>
-          <p>Contributing back to the community. Tools and libraries built for everyone.</p>
-          <a href="#" class="card-link">Source →</a>
-        </div>
-      </div>
-
     </div>
   </section>
 
   <!-- Footer -->
-  <footer id="contact">
-    <p>Want to collaborate? <a href="mailto:hello@luciusrockwing.com">hello@luciusrockwing.com</a></p>
-    <p style="margin-top: 0.5rem;">© 2026 Lucius Rockwing — Crafted with conviction.</p>
+  <footer>
+    <p>© 2026 Lucius Rockwing. All rights reserved.</p>
   </footer>
 
-  <!-- Scroll Reveal Script -->
+  <!-- Scroll Reveal -->
   <script>
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 
