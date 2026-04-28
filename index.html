@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucius Rockwing — Showcase</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface-2: #1a1a26;
+      --border: #2a2a3a;
+      --text: #e8e8f0;
+      --text-muted: #8888a0;
+      --accent: #6c5ce7;
+      --accent-glow: rgba(108, 92, 231, 0.4);
+      --accent-2: #00cec9;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Ambient Background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 206, 201, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(108, 92, 231, 0.04) 0%, transparent 50%);
+      z-index: -1;
+      animation: ambientDrift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientDrift {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-2%, -1%) rotate(3deg); }
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.4rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.8rem; color: var(--accent-2);
+      margin-bottom: 2rem;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent-2);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent));
+      background-size: 200% 200%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero p {
+      max-width: 600px;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer; border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8b7cf7);
+      color: white;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--surface);
+      border-color: var(--accent);
+    }
+
+    /* ── Showcase Section ── */
+    .showcase {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .section-header p {
+      max-width: 550px;
+      margin: 0 auto;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    /* ── Showcase Grid ── */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .showcase-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .showcase-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+    }
+
+    .card-preview {
+      height: 200px;
+      background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, var(--surface));
+    }
+
+    .card-preview .placeholder-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+      filter: grayscale(1);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-tags {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag-design { background: rgba(108, 92, 231, 0.15); color: var(--accent); }
+    .tag-dev { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
+    .tag-art { background: rgba(255, 107, 129, 0.15); color: #ff6b81; }
+    .tag-music { background: rgba(253, 203, 110, 0.15); color: #fdcb6e; }
+
+    .card-body h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .card-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: gap 0.3s;
+    }
+    .card-link:hover { gap: 0.7rem; }
+
+    /* ── Featured (span 2 cols) ── */
+    .showcase-card.featured {
+      grid-column: span 2;
+    }
+
+    .showcase-card.featured .card-preview {
+      height: 280px;
+    }
+
+    @media (max-width: 768px) {
+      .showcase-card.featured { grid-column: span 1; }
+      .showcase-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    /* ── Stats Bar ── */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 3rem 2rem;
+      margin: 0 auto;
+      max-width: 900px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 0.3rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── Scroll Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="logo">◆ LUCIUS</div>
+    <ul class="nav-links">
+      <li><a href="#showcase">Showcase</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge"><span class="dot"></span> Available for Projects</div>
+    <h1>
+      Building the<br>
+      <span class="gradient">Extraordinary</span>
+    </h1>
+    <p>A curated collection of projects, experiments, and creative works. Each piece crafted with intention, precision, and a touch of audacity.</p>
+    <div class="hero-cta">
+      <a href="#showcase" class="btn btn-primary">↓ Explore Showcase</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch →</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar reveal">
+    <div class="stat">
+      <div class="stat-value">7+</div>
+      <div class="stat-label">Projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Curiosity</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">24/7</div>
+      <div class="stat-label">Creating</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">1</div>
+      <div class="stat-label">Vision</div>
+    </div>
+  </div>
+
+  <!-- Showcase -->
+  <section class="showcase" id="showcase">
+    <div class="section-header reveal">
+      <span class="section-label">Showcase</span>
+      <h2>Selected Works</h2>
+      <p>A glimpse into what I've been building, designing, and dreaming up.</p>
+    </div>
+
+    <div class="showcase-grid">
+
+      <!-- Featured Card -->
+      <div class="showcase-card featured reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">🚀</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-design">Design</span>
+            <span class="tag tag-dev">Dev</span>
+          </div>
+          <h3>Flagship Project</h3>
+          <p>The centerpiece — a bold fusion of design and engineering. Details coming soon as this vision takes shape.</p>
+          <a href="#" class="card-link">View Details →</a>
+        </div>
+      </div>
+
+      <!-- Card 1 -->
+      <div class="showcase-card reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">🎨</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-art">Art</span>
+          </div>
+          <h3>Creative Experiment</h3>
+          <p>Exploring the boundary between code and canvas. Digital art pushed through algorithms and imagination.</p>
+          <a href="#" class="card-link">See More →</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="showcase-card reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">⚡</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-dev">Dev</span>
+          </div>
+          <h3>Tool / Utility</h3>
+          <p>Built to solve real problems with clean, efficient solutions. Function meets form.</p>
+          <a href="#" class="card-link">Try It →</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="showcase-card reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">🎵</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-music">Music</span>
+            <span class="tag tag-art">Art</span>
+          </div>
+          <h3>Sound Design</h3>
+          <p>Sonic landscapes and audio experiments. Where rhythm meets technology.</p>
+          <a href="#" class="card-link">Listen →</a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="showcase-card reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">🔮</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-design">Design</span>
+            <span class="tag tag-dev">Dev</span>
+          </div>
+          <h3>Interactive Experience</h3>
+          <p>WebGL, animations, and immersive interfaces. The web as a creative medium.</p>
+          <a href="#" class="card-link">Explore →</a>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="showcase-card reveal">
+        <div class="card-preview">
+          <span class="placeholder-icon">📐</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags">
+            <span class="tag tag-dev">Dev</span>
+          </div>
+          <h3>Open Source</h3>
+          <p>Contributing back to the community. Tools and libraries built for everyone.</p>
+          <a href="#" class="card-link">Source →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <p>Want to collaborate? <a href="mailto:hello@luciusrockwing.com">hello@luciusrockwing.com</a></p>
+    <p style="margin-top: 0.5rem;">© 2026 Lucius Rockwing — Crafted with conviction.</p>
+  </footer>
+
+  <!-- Scroll Reveal Script -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
