@@ -6,87 +6,83 @@
 		<title>LRW — Portfolio</title>
 		<meta name="description" content="Showcase portfolio of LRW @luciusrockwing.">
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#09090B" />
+		<meta name="color-scheme" content="dark" />
 
-		<link rel="stylesheet" href="./css/layout.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 		<link rel="stylesheet" href="./css/typography.css">
+		<link rel="stylesheet" href="./css/layout.css">
 		<link rel="stylesheet" href="./css/utilities.css">
 
 		<script defer src="./js/script.js"></script>
+		<script defer src="./js/animations.js"></script>
 	</head>
 	<body>
+	<!-- Skip to content -->
+	<a href="#main-content" class="skip-link">Skip to content</a>
+
 	<!-- NAVBAR -->
-	<div class="navbar">
+	<nav class="navbar">
 		<a class="nav-title-link" href="./index.html">
 			<span class="nav-title">LRW</span>
 		</a>
 		<a class="button" href="mailto:luciusrockwing@gmail.com">
 			<span class="button-text">Contact</span>
 		</a>
-	</div>
+	</nav>
 
 	<!-- MAIN PAGE CONTENT -->
-	<div id="main-content">
+	<main id="main-content">
 
 	<!-- PORTFOLIO HEADER -->
 	<div id="portfolio-header">
-		<div id="portfolio-header-image-container">
-			<img src="./assets/images/1311.png" class="portfolio-header-image">
-			<span class="image-caption">@luciusrockwing</span>
-		</div>
-
 		<div id="portfolio-header-text-container">
 			<div class="header-text">
 				<span class="main-title">Hey, I'm LRW.</span>
 				<div class="body-text">I make things. Some of them work. This is where I keep the ones I'm not embarrassed about.</div>
 			</div>
-			<a class="button" id="my-work-link">
-				<span class="button-text">See my work</span> 
-				<image src="./assets/icons/arrow-right.svg" class="right-arrow-icon"/>
+			<a class="button" id="my-work-link" href="#showcase-section">
+				<span class="button-text">See my work</span>
+				<img src="./assets/icons/arrow-right.svg" class="right-arrow-icon" width="14" height="14" alt="" />
 			</a>
 		</div>
 	</div>
 
 	<!-- ABOUT SECTION -->
-	<div id="about-section">
+	<section id="about-section">
 		<span class="subheader-text">About Me</span>
 		<div class="about-section-content">
 			<div class="body-text">I'm LRW. I build stuff across design, code, and whatever else seems worth trying. I don't stick to one lane — I get bored easy and that's worked out okay so far.</div>
 			<div class="body-text">What's below is work I actually finished. Some of it is useful, some of it is just interesting to me. If something catches your eye, say hi.</div>
 		</div>
-	</div>
+	</section>
 
 	<!-- SHOWCASE SECTION -->
-	<div id="about-section">
+	<section id="showcase-section">
 		<span class="subheader-text">Showcase</span>
 		<div class="about-section-content showcase-list">
 			<div class="body-text">Showcase Item 1 — (<a href="#" class="no-underline">Link</a>) First thing worth mentioning goes here.</div>
 			<div class="body-text">Showcase Item 2 — (<a href="#" class="no-underline">Link</a>) Second thing. You get the idea.</div>
 			<div class="body-text">Showcase Item 3 — (<a href="#" class="no-underline">Link</a>) Add more, cut some, whatever fits.</div>
 		</div>
-	</div>
+	</section>
 
-	<!-- PROJECTS SECTION (hidden for now) -->
-	<!-- <div id="about-section">
-		<span class="subheader-text">Projects</span>
-		<div class="about-section-content">
-			<div class="body-text">Project One — (<a href="#" class="no-underline">Link</a>) The main thing I've been working on.</div>
-			<div class="body-text">Project Two — (<a href="#" class="no-underline">Link</a>) The other thing.</div>
-		</div>
-	</div> -->
-	</div>
+	</main>
 
 	<!-- FOOTER -->
-	<div id="footer">
-		<a class="icon-link" target="_blank" href="https://twitter.com/luciusrockwing">
-			<image src="./assets/icons/twitter.svg" class="footer-icon"/>
+	<footer id="footer">
+		<a class="icon-link" target="_blank" rel="noopener" href="https://twitter.com/luciusrockwing" aria-label="Twitter">
+			<img src="./assets/icons/twitter.svg" class="footer-icon" width="18" height="18" alt="Twitter" />
 		</a>
-		<a class="icon-link" target="_blank" href="https://instagram.com/luciusrockwing">
-			<image src="./assets/icons/instagram.svg" class="footer-icon"/>
+		<a class="icon-link" target="_blank" rel="noopener" href="https://instagram.com/luciusrockwing" aria-label="Instagram">
+			<img src="./assets/icons/instagram.svg" class="footer-icon" width="18" height="18" alt="Instagram" />
 		</a>
-		<a class="icon-link" href="mailto:luciusrockwing@gmail.com">
-			<image src="./assets/icons/mail.svg" class="footer-icon"/>
+		<a class="icon-link" href="mailto:luciusrockwing@gmail.com" aria-label="Email">
+			<img src="./assets/icons/mail.svg" class="footer-icon" width="18" height="18" alt="Email" />
 		</a>
-	</div>
+	</footer>
 
 	</body>
 </html>

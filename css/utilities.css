@@ -118,6 +118,34 @@ a.no-underline:hover {
 }
 
 
+/* ===== Focus Visible ===== */
+
+a:focus-visible,
+a.button:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+a.button:focus-visible {
+	border-radius: 100px;
+}
+
+.nav-title-link:focus-visible {
+	outline-offset: 4px;
+}
+
+
+/* ===== Touch ===== */
+
+a.button,
+a.icon-link,
+a.nav-title-link,
+a.no-underline {
+	touch-action: manipulation;
+}
+
+
 /* ===== Showcase List ===== */
 
 .showcase-list .body-text {
@@ -135,5 +163,26 @@ a.no-underline:hover {
 }
 
 .showcase-list .body-text:hover {
+	padding-left: 8px;
+}
+
+
+/* ===== Project Details List (showcase subpage) ===== */
+
+.project-details-content .body-text {
+	padding: 12px 0;
+	border-bottom: 1px solid var(--color-border);
+	transition: padding-left var(--transition-base);
+}
+
+.project-details-content .body-text:first-child {
+	padding-top: 0;
+}
+
+.project-details-content .body-text:last-child {
+	border-bottom: none;
+}
+
+.project-details-content .body-text:hover {
 	padding-left: 8px;
 }
