@@ -36,6 +36,7 @@ body {
 	line-height: 1.1;
 	letter-spacing: -0.03em;
 	color: var(--color-text);
+	text-wrap: balance;
 }
 
 .subheader-text {
