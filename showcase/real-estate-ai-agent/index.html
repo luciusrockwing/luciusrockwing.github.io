@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="../../assets/images/1311.png" />
+	<title>LRW — Real Estate AI Agent</title>
+	<meta name="description" content="Done-for-you AI agent deployment for real estate agencies. LINE OA chatbot for Thai property market.">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#0d0d0d" />
+	<meta name="color-scheme" content="dark" />
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+	<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+	<style>
+		:root {
+			--bg: #0d0d0d;
+			--surface: #141414;
+			--border: #1e1e1e;
+			--border-light: #2a2a2a;
+			--gold: #c9a84c;
+			--gold-dim: #c9a84c33;
+			--gold-mid: #c9a84c55;
+			--text: #e8e0d0;
+			--text-bright: #f5f0e8;
+			--text-muted: #888;
+			--text-dim: #555;
+			--text-dead: #333;
+			--teal: #8ab4c9;
+			--red-soft: #c98a8a;
+			--green-soft: #8ac99a;
+			--font-heading: 'Cinzel', Georgia, serif;
+			--font-body: 'Josefin Sans', sans-serif;
+			--font-mono: 'JetBrains Mono', monospace;
+		}
+
+		* { box-sizing: border-box; margin: 0; padding: 0; }
+
+		html {
+			text-size-adjust: none;
+			-webkit-text-size-adjust: none;
+		}
+
+		body {
+			background: var(--bg);
+			color: var(--text);
+			font-family: var(--font-body);
+			font-size: 14px;
+			line-height: 1.7;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		/* Skip link */
+		.skip-link {
+			position: absolute;
+			top: -100%;
+			left: 16px;
+			padding: 8px 16px;
+			background: var(--gold);
+			color: var(--bg);
+			border-radius: 4px;
+			font-family: var(--font-body);
+			font-size: 14px;
+			text-decoration: none;
+			z-index: 100;
+			transition: top 150ms;
+		}
+		.skip-link:focus { top: 16px; }
+
+		/* ===== NAVBAR ===== */
+		.navbar {
+			width: 100%;
+			padding: 20px 32px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 50;
+			background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+		}
+
+		.nav-title-link {
+			color: var(--text-bright);
+			text-decoration: none;
+			font-family: var(--font-heading);
+			font-size: 16px;
+			letter-spacing: 3px;
+			transition: opacity 150ms;
+		}
+		.nav-title-link:hover { opacity: 0.7; }
+
+		.nav-back {
+			color: var(--gold);
+			text-decoration: none;
+			font-size: 12px;
+			letter-spacing: 1px;
+			padding: 6px 16px;
+			border: 1px solid var(--border-light);
+			border-radius: 100px;
+			transition: border-color 150ms, background-color 150ms;
+		}
+		.nav-back:hover {
+			border-color: var(--text-muted);
+			background: var(--surface);
+		}
+
+		a:focus-visible, button:focus-visible {
+			outline: 2px solid var(--gold);
+			outline-offset: 2px;
+		}
+
+		/* ===== HEADER ===== */
+		.page-header {
+			border-bottom: 1px solid var(--border-light);
+			padding: 100px 40px 24px;
+			display: flex;
+			align-items: flex-end;
+			gap: 16px;
+			flex-wrap: wrap;
+		}
+		.page-header-label {
+			font-size: 11px;
+			letter-spacing: 4px;
+			color: var(--gold);
+			text-transform: uppercase;
+			margin-bottom: 6px;
+		}
+		.page-header h1 {
+			font-family: var(--font-heading);
+			font-size: 26px;
+			font-weight: normal;
+			color: var(--text-bright);
+			line-height: 1.2;
+		}
+		.page-header-right {
+			margin-left: auto;
+			font-size: 11px;
+			color: var(--text-dim);
+			letter-spacing: 1px;
+		}
+
+		/* ===== LAYOUT ===== */
+		.content-wrap {
+			display: flex;
+			flex: 1;
+		}
+
+		/* Sidebar */
+		.sidebar {
+			width: 180px;
+			flex-shrink: 0;
+			border-right: 1px solid var(--border);
+			padding: 24px 0;
+			position: sticky;
+			top: 60px;
+			height: calc(100vh - 60px);
+			overflow-y: auto;
+		}
+		.sidebar button {
+			display: block;
+			width: 100%;
+			text-align: left;
+			padding: 10px 24px;
+			background: transparent;
+			border: none;
+			border-left: 2px solid transparent;
+			color: var(--text-dim);
+			font-family: var(--font-body);
+			font-size: 12px;
+			letter-spacing: 0.5px;
+			cursor: pointer;
+			transition: all 0.15s;
+		}
+		.sidebar button:hover {
+			color: var(--text-muted);
+			background: var(--surface);
+		}
+		.sidebar button.active {
+			background: #1a1a1a;
+			border-left-color: var(--gold);
+			color: var(--text-bright);
+		}
+
+		/* Main panel */
+		.main-panel {
+			flex: 1;
+			padding: 40px 48px;
+			max-width: 820px;
+		}
+
+		/* ===== SECTION ===== */
+		.section { display: none; }
+		.section.active { display: block; }
+
+		.section-title {
+			margin-bottom: 32px;
+		}
+		.section-title-label {
+			font-size: 10px;
+			letter-spacing: 3px;
+			color: var(--gold);
+			text-transform: uppercase;
+			margin-bottom: 8px;
+		}
+		.section-title h2 {
+			font-family: var(--font-heading);
+			font-size: 22px;
+			font-weight: normal;
+			color: var(--text-bright);
+		}
+
+		/* ===== CARD ===== */
+		.card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 20px 24px;
+			margin-bottom: 16px;
+		}
+		.card.accent {
+			border-color: var(--gold-dim);
+		}
+
+		.label {
+			display: inline-block;
+			font-size: 10px;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			color: var(--gold);
+			margin-bottom: 6px;
+		}
+
+		/* ===== STATS GRID ===== */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+			margin-bottom: 28px;
+		}
+		.stat-number {
+			font-family: var(--font-heading);
+			font-size: 26px;
+			color: var(--gold);
+			font-weight: normal;
+		}
+		.stat-label {
+			font-size: 11px;
+			color: var(--text-dim);
+			margin-top: 4px;
+			letter-spacing: 1px;
+		}
+
+		/* ===== LISTS ===== */
+		.card ul {
+			margin: 8px 0 0;
+			padding-left: 18px;
+			color: var(--text-muted);
+			font-size: 13px;
+			line-height: 2;
+		}
+		.card ul.dim {
+			color: var(--text-dead);
+		}
+
+		/* ===== FLOW STEPS ===== */
+		.flow-step {
+			display: flex;
+			gap: 20px;
+			margin-bottom: 12px;
+		}
+		.flow-rail {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.flow-dot {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 11px;
+			font-family: var(--font-mono);
+			flex-shrink: 0;
+		}
+		.flow-line {
+			width: 1px;
+			flex: 1;
+			background: var(--border);
+			margin: 4px 0;
+		}
+		.flow-title {
+			color: var(--text);
+			font-size: 14px;
+			margin-bottom: 4px;
+		}
+		.flow-detail {
+			color: var(--text-dim);
+			font-size: 13px;
+			line-height: 1.7;
+		}
+
+		/* ===== CHAT BUBBLES ===== */
+		.chat {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 10px;
+			align-items: flex-start;
+		}
+		.chat.user { flex-direction: row-reverse; }
+		.chat-avatar {
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 11px;
+			flex-shrink: 0;
+		}
+		.chat-avatar.bot {
+			background: #c9a84c22;
+			color: var(--gold);
+		}
+		.chat-avatar.human {
+			background: #2a2a2a;
+			color: var(--text-dim);
+		}
+		.chat-bubble {
+			max-width: 75%;
+			padding: 10px 14px;
+			font-size: 13px;
+			line-height: 1.6;
+			white-space: pre-line;
+		}
+		.chat-bubble.bot {
+			background: #1a1a1a;
+			border: 1px solid var(--border-light);
+			border-radius: 4px 12px 12px 12px;
+			color: var(--text-muted);
+		}
+		.chat-bubble.bot.highlight {
+			border-color: var(--gold-mid);
+			color: #f5d98a;
+		}
+		.chat-bubble.human {
+			background: #1d1d1d;
+			border: 1px solid #252525;
+			border-radius: 12px 4px 12px 12px;
+			color: var(--text-muted);
+		}
+
+		/* Tab pills */
+		.tab-bar {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 24px;
+			flex-wrap: wrap;
+		}
+		.tab-pill {
+			padding: 6px 16px;
+			background: transparent;
+			border: 1px solid var(--border-light);
+			border-radius: 20px;
+			color: var(--text-dim);
+			font-family: var(--font-body);
+			font-size: 12px;
+			letter-spacing: 0.5px;
+			cursor: pointer;
+			transition: all 0.15s;
+		}
+		.tab-pill:hover { color: var(--text-muted); border-color: var(--text-dim); }
+		.tab-pill.active {
+			background: #c9a84c22;
+			border-color: var(--gold-mid);
+			color: var(--gold);
+		}
+
+		/* Convo panels */
+		.convo-panel { display: none; }
+		.convo-panel.active { display: block; }
+
+		/* ===== SCORING ===== */
+		.score-card {
+			display: flex;
+			gap: 16px;
+			align-items: flex-start;
+		}
+		.score-badge {
+			width: 48px;
+			height: 48px;
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 22px;
+			flex-shrink: 0;
+		}
+		.score-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 12px;
+		}
+		.score-label {
+			font-size: 10px;
+			letter-spacing: 2px;
+			color: var(--text-dead);
+			margin-bottom: 6px;
+		}
+		.score-criteria {
+			margin: 0;
+			padding-left: 16px;
+			color: var(--text-muted);
+			font-size: 12px;
+			line-height: 1.9;
+		}
+		.score-action {
+			margin: 0;
+			color: var(--text-dim);
+			font-size: 12px;
+			line-height: 1.7;
+		}
+		.lead-summary {
+			background: var(--bg);
+			border-radius: 4px;
+			padding: 14px 16px;
+			margin-top: 10px;
+			font-family: var(--font-mono);
+			font-size: 12px;
+			color: var(--text-muted);
+			line-height: 2;
+		}
+
+		/* ===== TABLE ===== */
+		.data-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 13px;
+			margin-bottom: 20px;
+		}
+		.data-table th {
+			text-align: left;
+			padding: 8px 12px;
+			border-bottom: 1px solid var(--border-light);
+			color: var(--gold);
+			font-size: 10px;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			font-weight: normal;
+		}
+		.data-table td {
+			padding: 10px 12px;
+			border-bottom: 1px solid #1a1a1a;
+			vertical-align: top;
+		}
+		.data-table td:first-child { color: var(--text); }
+		.data-table td:not(:first-child) { color: var(--text-muted); }
+
+		/* Setup timeline */
+		.setup-timeline {
+			display: flex;
+			gap: 0;
+			margin-top: 10px;
+		}
+		.setup-step {
+			flex: 1;
+			padding: 10px 12px;
+			border-right: 1px solid #1a1a1a;
+		}
+		.setup-step:last-child { border-right: none; }
+		.setup-step-num {
+			font-size: 10px;
+			color: var(--gold);
+			margin-bottom: 4px;
+		}
+		.setup-step-text {
+			font-size: 11px;
+			color: var(--text-dim);
+			line-height: 1.5;
+		}
+
+		/* ===== PRICING ===== */
+		.pricing-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 12px;
+		}
+		.pricing-card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			padding: 20px;
+		}
+		.pricing-card.featured {
+			border-color: var(--gold-dim);
+		}
+		.pricing-recommended {
+			font-size: 9px;
+			color: var(--gold);
+			letter-spacing: 3px;
+			margin-bottom: 10px;
+		}
+		.pricing-name { font-size: 18px; margin-bottom: 2px; }
+		.pricing-price {
+			font-family: var(--font-heading);
+			font-size: 22px;
+			color: var(--text-bright);
+			margin: 10px 0 2px;
+		}
+		.pricing-price span { font-size: 12px; color: var(--text-dim); }
+		.pricing-setup { font-size: 11px; color: var(--text-dead); margin-bottom: 16px; }
+		.pricing-ideal { font-size: 11px; color: var(--text-dim); font-style: italic; margin-bottom: 14px; }
+		.pricing-divider { border-top: 1px solid #1a1a1a; padding-top: 14px; }
+		.pricing-item {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 7px;
+			align-items: flex-start;
+		}
+		.pricing-check {
+			font-size: 12px;
+			flex-shrink: 0;
+			margin-top: 1px;
+		}
+		.pricing-item-text {
+			font-size: 11px;
+			color: var(--text-muted);
+			line-height: 1.5;
+		}
+		.pricing-item.dim .pricing-check { color: var(--text-dead); }
+		.pricing-item.dim .pricing-item-text { color: var(--text-dead); }
+
+		/* ===== OBJECTION CARDS ===== */
+		.objection-q {
+			color: var(--text);
+			font-size: 13px;
+			margin-bottom: 6px;
+		}
+		.objection-a {
+			color: var(--text-muted);
+			font-size: 13px;
+			line-height: 1.7;
+		}
+
+		/* ===== FOOTER ===== */
+		#footer {
+			width: 100%;
+			display: flex;
+			padding: 40px 32px;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+			border-top: 1px solid var(--border);
+		}
+		.icon-link {
+			display: flex;
+			font-size: 20px;
+			opacity: 0.7;
+			transition: opacity 150ms, transform 250ms;
+			cursor: pointer;
+			text-decoration: none;
+		}
+		.icon-link:hover {
+			opacity: 1;
+			transform: translateY(-2px);
+		}
+
+		/* ===== RESPONSIVE ===== */
+		@media only screen and (max-width: 800px) {
+			.page-header { padding: 90px 20px 20px; }
+			.sidebar {
+				width: 100%;
+				height: auto;
+				position: static;
+				border-right: none;
+				border-bottom: 1px solid var(--border);
+				padding: 12px 0;
+				display: flex;
+				overflow-x: auto;
+			}
+			.sidebar button {
+				white-space: nowrap;
+				border-left: none;
+				border-bottom: 2px solid transparent;
+				padding: 8px 16px;
+			}
+			.sidebar button.active {
+				border-left: none;
+				border-bottom-color: var(--gold);
+			}
+			.content-wrap { flex-direction: column; }
+			.main-panel { padding: 24px 20px; }
+			.stats-grid, .pricing-grid { grid-template-columns: 1fr; }
+			.score-grid { grid-template-columns: 1fr; }
+			.setup-timeline { flex-direction: column; }
+			.setup-step { border-right: none; border-bottom: 1px solid #1a1a1a; }
+		}
+
+		@media only screen and (max-width: 600px) {
+			.page-header h1 { font-size: 20px; }
+		}
+
+		/* Touch */
+		button, a { touch-action: manipulation; }
+
+		/* Reduced motion */
+		@media (prefers-reduced-motion: reduce) {
+			* { transition: none !important; }
+		}
+	</style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a href="#main-panel" class="skip-link">Skip to content</a>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+	<a class="nav-title-link" href="../../index.html">LRW</a>
+	<a class="nav-back" href="../../index.html#showcase-section">&larr; Back</a>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+	<div>
+		<div class="page-header-label">Service Playbook</div>
+		<h1>Real Estate AI Agent</h1>
+	</div>
+	<div class="page-header-right">Phuket · Samui · Chiang Mai</div>
+</header>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" aria-label="Sections">
+	<button class="active" data-section="overview">Overview</button>
+	<button data-section="why">Why RE</button>
+	<button data-section="flow">The Flow</button>
+	<button data-section="conversations">Conversations</button>
+	<button data-section="scoring">Lead Scoring</button>
+	<button data-section="stack">Tech Stack</button>
+	<button data-section="pricing">Pricing</button>
+	<button data-section="pitch">Sales Pitch</button>
+</nav>
+
+<!-- MAIN PANEL -->
+<main class="main-panel" id="main-panel">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="section active" id="sec-overview">
+	<div class="section-title">
+		<div class="section-title-label">What This Is</div>
+		<h2>The Setup</h2>
+	</div>
+	<p style="color: var(--text-muted); line-height: 1.8; font-size: 14px; margin-bottom: 28px;">
+		This is your core service offer: a done-for-you AI agent deployment for real estate agencies.
+		You configure it, you hand it over, they pay monthly. The playbook below covers everything
+		from the sales pitch to the exact tech stack — refined specifically for the Thai property market.
+	</p>
+
+	<div class="stats-grid">
+		<div class="card accent">
+			<div class="stat-number">72hrs</div>
+			<div class="stat-label">Avg setup time</div>
+		</div>
+		<div class="card accent">
+			<div class="stat-number">8K–25K</div>
+			<div class="stat-label">THB/month retainer</div>
+		</div>
+		<div class="card accent">
+			<div class="stat-number">~60%</div>
+			<div class="stat-label">Margin after tools</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="label">What you deliver</div>
+		<ul>
+			<li>Conversational agent on LINE OA + web widget (dual channel)</li>
+			<li>Live property matching from their database (Google Sheet / Airtable)</li>
+			<li>Automated lead qualification with scoring before human sees it</li>
+			<li>Calendar booking + instant agent notification</li>
+			<li>Weekly lead summary report (automated)</li>
+			<li>Thai + English language support out of the box</li>
+		</ul>
+	</div>
+
+	<div class="card">
+		<div class="label" style="color: var(--text-dim);">What you don't do</div>
+		<ul class="dim">
+			<li>You don't maintain their property database (they do)</li>
+			<li>You don't handle post-sale or contract management</li>
+			<li>You don't guarantee lead volume — you guarantee lead quality</li>
+		</ul>
+	</div>
+</div>
+
+<!-- ═══ WHY RE ═══ -->
+<div class="section" id="sec-why">
+	<div class="section-title">
+		<div class="section-title-label">Market Fit</div>
+		<h2>Why Real Estate Works</h2>
+	</div>
+
+	<div class="card accent">
+		<div class="label">The core problem you're solving</div>
+		<p style="color: var(--text-muted); font-size: 14px; line-height: 1.8; margin: 8px 0 0;">
+			A Phuket agency gets 40–80 LINE inquiries a week. Their agent answers the same 6 questions
+			on repeat — budget, location, type, timeline, viewing, price. That's 8–15 hours of
+			copy-paste work before a single real conversation happens. You eliminate that entirely.
+		</p>
+	</div>
+
+	<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
+		<div class="card">
+			<div class="label">High ticket value</div>
+			<p style="margin: 6px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.7;">One condo sale = 50K–500K THB commission. Agent ROI on your service is visible within the first deal.</p>
+		</div>
+		<div class="card">
+			<div class="label">Repetitive early questions</div>
+			<p style="margin: 6px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.7;">90% of incoming messages are qualification-stage. Perfect for automation — zero nuance required.</p>
+		</div>
+		<div class="card">
+			<div class="label">After-hours volume</div>
+			<p style="margin: 6px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.7;">Foreign buyers (EU, AU) message at 11pm–2am Thai time. No one is answering. Agent is.</p>
+		</div>
+		<div class="card">
+			<div class="label">Multi-language gap</div>
+			<p style="margin: 6px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.7;">Most agencies have one bilingual agent. Bot handles Thai, English, and basic Russian without extra hire.</p>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="label">Phuket-specific context</div>
+		<p style="color: var(--text-muted); font-size: 13px; line-height: 1.7; margin: 8px 0 0;">
+			High season (Nov–Apr) floods small agencies with leads they can't process fast enough.
+			Low season, they're chasing cold leads manually. Your agent runs 24/7 regardless —
+			capturing the peak overflow and re-engaging dormant leads in off-season.
+			Frame it as leveling their capacity without headcount.
+		</p>
+	</div>
+</div>
+
+<!-- ═══ THE FLOW ═══ -->
+<div class="section" id="sec-flow">
+	<div class="section-title">
+		<div class="section-title-label">System Architecture</div>
+		<h2>The Full Flow</h2>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #c9a84c22; border: 1px solid #c9a84c55; color: var(--gold);">01</div>
+			<div class="flow-line"></div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Inquiry Arrives</div>
+			<div class="flow-detail">LINE OA message or web widget. Agent responds in &lt;5 seconds, 24/7. First reply: detect language (Thai / EN / RU), acknowledge, open qualification.</div>
+		</div>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #8ab4c922; border: 1px solid #8ab4c955; color: var(--teal);">02</div>
+			<div class="flow-line"></div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Qualification Loop</div>
+			<div class="flow-detail">5 structured questions delivered conversationally. Budget &rarr; Location &rarr; Property type &rarr; Bedrooms &rarr; Timeline. If user drops off mid-flow, re-engage once after 2 hours.</div>
+		</div>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #c98a8a22; border: 1px solid #c98a8a55; color: var(--red-soft);">03</div>
+			<div class="flow-line"></div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Lead Scoring</div>
+			<div class="flow-detail">System scores the lead A/B/C based on budget range, timeline urgency, and response completeness. Score determines routing priority.</div>
+		</div>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #8ac99a22; border: 1px solid #8ac99a55; color: var(--green-soft);">04</div>
+			<div class="flow-line"></div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Property Matching</div>
+			<div class="flow-detail">Agent queries live property sheet. Returns max 3 matching units with key specs. Offers photos (link) or viewing booking.</div>
+		</div>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #c9a84c22; border: 1px solid #c9a84c55; color: var(--gold);">05</div>
+			<div class="flow-line"></div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Booking &amp; Handoff</div>
+			<div class="flow-detail">Slot selection &rarr; calendar block &rarr; agent notification via LINE Notify. Human agent gets: name, contact, score, matched property, budget confirmed, timeline.</div>
+		</div>
+	</div>
+
+	<div class="flow-step">
+		<div class="flow-rail">
+			<div class="flow-dot" style="background: #8ab4c922; border: 1px solid #8ab4c955; color: var(--teal);">06</div>
+		</div>
+		<div style="padding-bottom: 16px; flex: 1;">
+			<div class="flow-title">Post-Viewing Follow-up</div>
+			<div class="flow-detail">T+24hrs: automated check-in message. T+72hrs: if no response from human agent, flag in lead log. Keeps pipeline visible.</div>
+		</div>
+	</div>
+</div>
+
+<!-- ═══ CONVERSATIONS ═══ -->
+<div class="section" id="sec-conversations">
+	<div class="section-title">
+		<div class="section-title-label">Conversation Design</div>
+		<h2>Live Conversation Flows</h2>
+	</div>
+
+	<div class="tab-bar" id="convo-tabs">
+		<button class="tab-pill active" data-tab="qualify">Qualification</button>
+		<button class="tab-pill" data-tab="match">Property Match</button>
+		<button class="tab-pill" data-tab="book">Booking</button>
+		<button class="tab-pill" data-tab="objection">Objections</button>
+	</div>
+
+	<!-- Qualification -->
+	<div class="convo-panel active card" id="convo-qualify">
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">สวัสดีครับ! Welcome to Phuket Property Co. 🌴
+
+Are you looking to buy or rent? (ซื้อหรือเช่า)</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Buy</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Great choice — Phuket is a strong market right now.
+
+What's your approximate budget? (in THB or USD is fine)</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Around 4-5 million baht</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Good range — several options available there.
+
+Any preferred area? We have inventory across:
+• Rawai / Nai Harn (quieter, local feel)
+• Patong / Karon (central, rental yield)
+• Bang Tao / Laguna (luxury, expat community)
+• Chalong / Ao Po (value, marina access)</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Rawai area preferably</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Noted. House or condo? And how many bedrooms are you thinking?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Condo, 2 beds ideally</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Last question — what's your timeline? Are you looking to move quickly or still in the research stage?
+
+• Ready to buy within 3 months
+• 3–6 months
+• Just exploring for now</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">3 months or so</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Perfect. I've found 4 units matching your criteria. Can I get your name and a WhatsApp/LINE number so our agent can send you the full details + photos?</div></div>
+	</div>
+
+	<!-- Property Match -->
+	<div class="convo-panel card" id="convo-match">
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Do you have a 2 bed condo near Rawai under 4.5M?</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Yes — 3 units match that search right now:
+
+🏠 Baan Talay Rawai
+3.2M THB · 68sqm · Pool view · Ready to transfer
+
+🏠 Rawai Residence B
+3.8M THB · 75sqm · Garden unit · Q3 handover
+
+🏠 The Crest Nai Harn
+4.3M THB · 82sqm · Sea view · Fully furnished
+
+Want photos, floor plans, or to schedule a viewing on any of these?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Photos of the first one and third one please</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Here you go:
+
+📸 Baan Talay Rawai → [link]
+📸 The Crest Nai Harn → [link]
+
+Both have virtual tours available too. Which one interests you more?</div></div>
+	</div>
+
+	<!-- Booking -->
+	<div class="convo-panel card" id="convo-book">
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">I want to see Baan Talay Rawai</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Great pick — it's one of our most popular units this month.
+
+Available viewing slots:
+• Thursday 2:00pm
+• Friday 10:00am
+• Friday 3:00pm
+• Saturday 11:00am
+
+Which works for you?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Friday 10am</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Confirmed ✅
+
+Friday, [date] at 10:00am
+Property: Baan Talay Rawai, 3.2M THB
+Agent: Khun Lek (+66 81 xxx xxxx)
+Address: [Google Maps link]
+
+You'll get a reminder the evening before. Anything to know before the visit?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Is there parking at the condo?</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Yes — 1 covered parking space included per unit, with a second available to rent from the juristic office. I've noted your question for the agent too.</div></div>
+	</div>
+
+	<!-- Objections -->
+	<div class="convo-panel card" id="convo-objection">
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">I'm just browsing, not serious yet</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">No pressure at all — browsing is a great way to start.
+
+If it helps, I can send you a weekly digest of new listings in your preferred area so you stay informed without any commitment. Would that be useful?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Are these prices negotiable?</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Most sellers have some flexibility, especially on direct transactions. Our agent can advise on recent comparable sales and what realistic negotiation looks like for each unit.
+
+Want me to arrange a quick call — no obligation?</div></div>
+		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">I need to talk to my wife first</div></div>
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Of course — makes total sense for a purchase like this.
+
+Want me to send you a PDF summary of the units you liked? Easy to share with her, includes specs, photos, and price. Takes 2 seconds to forward.</div></div>
+	</div>
+
+	<div class="card" id="objection-principle" style="display: none;">
+		<div class="label">Design principle</div>
+		<p style="margin: 6px 0 0; color: var(--text-dim); font-size: 13px; line-height: 1.7;">
+			Every objection response offers a micro-commitment — something small and useful
+			(digest, PDF, call) that keeps the lead warm without pressure. Never a dead-end reply.
+		</p>
+	</div>
+</div>
+
+<!-- ═══ SCORING ═══ -->
+<div class="section" id="sec-scoring">
+	<div class="section-title">
+		<div class="section-title-label">Lead Intelligence</div>
+		<h2>Lead Scoring System</h2>
+	</div>
+	<p style="color: var(--text-muted); font-size: 13px; line-height: 1.8; margin-bottom: 24px;">
+		Agent scores every lead before a human sees them. Agents see Grade + summary.
+		No more "is this a real buyer" guesswork at 8am.
+	</p>
+
+	<!-- Grade A -->
+	<div class="card accent">
+		<div class="score-card">
+			<div class="score-badge" style="background: #8ac99a22; border: 1px solid #8ac99a55; color: var(--green-soft);">A</div>
+			<div style="flex: 1;">
+				<div style="color: var(--green-soft); font-size: 13px; margin-bottom: 8px; letter-spacing: 0.5px;">Hot — Priority Response</div>
+				<div class="score-grid">
+					<div>
+						<div class="score-label">QUALIFIES IF</div>
+						<ul class="score-criteria">
+							<li>Budget confirmed ≥ 3M THB</li>
+							<li>Timeline: within 3 months</li>
+							<li>Specific property / area preference</li>
+							<li>Agreed to viewing OR callback</li>
+							<li>Responded to all 5 questions</li>
+						</ul>
+					</div>
+					<div>
+						<div class="score-label">AGENT ACTION</div>
+						<p class="score-action">Notify agent immediately via LINE. Flag in CRM as Priority. Human must respond within 2 hours.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Grade B -->
+	<div class="card">
+		<div class="score-card">
+			<div class="score-badge" style="background: #c9a84c22; border: 1px solid #c9a84c55; color: var(--gold);">B</div>
+			<div style="flex: 1;">
+				<div style="color: var(--gold); font-size: 13px; margin-bottom: 8px; letter-spacing: 0.5px;">Warm — Follow Up This Week</div>
+				<div class="score-grid">
+					<div>
+						<div class="score-label">QUALIFIES IF</div>
+						<ul class="score-criteria">
+							<li>Budget stated but vague range</li>
+							<li>Timeline 3–6 months</li>
+							<li>Has preferences but open to options</li>
+							<li>Dropped off after 3+ questions</li>
+						</ul>
+					</div>
+					<div>
+						<div class="score-label">AGENT ACTION</div>
+						<p class="score-action">Enter into weekly nurture sequence. Agent reviews within 48 hours. Re-engage with new listings when available.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Grade C -->
+	<div class="card">
+		<div class="score-card">
+			<div class="score-badge" style="background: #c98a8a22; border: 1px solid #c98a8a55; color: var(--red-soft);">C</div>
+			<div style="flex: 1;">
+				<div style="color: var(--red-soft); font-size: 13px; margin-bottom: 8px; letter-spacing: 0.5px;">Cold — Nurture Sequence</div>
+				<div class="score-grid">
+					<div>
+						<div class="score-label">QUALIFIES IF</div>
+						<ul class="score-criteria">
+							<li>Budget not confirmed or very low</li>
+							<li>"Just looking" / no timeline</li>
+							<li>Incomplete qualification (&lt;3 questions)</li>
+							<li>No callback or viewing intent</li>
+						</ul>
+					</div>
+					<div>
+						<div class="score-label">AGENT ACTION</div>
+						<p class="score-action">Add to monthly newsletter. No agent time spent. Re-qualify if they re-engage organically.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="label">What the agent receives (auto-generated)</div>
+		<div class="lead-summary">
+			<span style="color: var(--gold);">LEAD SUMMARY — Friday 10:14am</span><br>
+			Name: David Chen &nbsp;|&nbsp; LINE: @davidcth<br>
+			<span style="color: var(--green-soft);">Grade: A (Hot)</span><br>
+			Budget: 3.8–4.5M THB confirmed<br>
+			Property: 2-bed condo, Rawai area<br>
+			Timeline: Within 3 months<br>
+			Interest: Baan Talay Rawai + The Crest Nai Harn<br>
+			Viewing: Booked Friday 10am — Baan Talay<br>
+			<span style="color: var(--text-dead);">Notes: Asked about parking (1 space included, confirmed)</span>
+		</div>
+	</div>
+</div>
+
+<!-- ═══ TECH STACK ═══ -->
+<div class="section" id="sec-stack">
+	<div class="section-title">
+		<div class="section-title-label">Implementation</div>
+		<h2>Tech Stack</h2>
+	</div>
+
+	<table class="data-table">
+		<thead>
+			<tr><th>Component</th><th>Tool</th><th>Why</th></tr>
+		</thead>
+		<tbody>
+			<tr><td>Primary Channel</td><td>LINE Official Account</td><td>Dominant in Thai market — every agency already has one</td></tr>
+			<tr><td>Secondary Channel</td><td>Web chat widget (Crisp / custom)</td><td>Captures Google/Facebook traffic that doesn't use LINE</td></tr>
+			<tr><td>Agent Gateway</td><td>n8n (self-hosted) or Make.com</td><td>Handles routing logic, webhooks, fallback rules — no vendor lock-in</td></tr>
+			<tr><td>AI Brain</td><td>Claude API (claude-sonnet-4)</td><td>Best at nuanced Thai/EN code-switch, not hallucinating listings</td></tr>
+			<tr><td>Property Data</td><td>Google Sheets + webhook</td><td>Agency already uses this — zero migration friction on Day 1</td></tr>
+			<tr><td>Calendar</td><td>Google Calendar API</td><td>Auto-block slots, prevent double-booking, send reminders</td></tr>
+			<tr><td>Agent Notify</td><td>LINE Notify + Telegram bot</td><td>Dual channel — LINE for Thai agents, Telegram as backup</td></tr>
+			<tr><td>Lead Log</td><td>Google Sheets or Airtable</td><td>Visible to agency without any new software to learn</td></tr>
+			<tr><td>Follow-up Engine</td><td>n8n scheduled triggers</td><td>T+24hr, T+72hr, weekly digest — fully automated</td></tr>
+			<tr><td>Analytics</td><td>Looker Studio (free)</td><td>Weekly dashboard: leads by score, response rate, booking conversion</td></tr>
+		</tbody>
+	</table>
+
+	<div class="card">
+		<div class="label">Setup sequence</div>
+		<div class="setup-timeline">
+			<div class="setup-step">
+				<div class="setup-step-num">Day 1–2</div>
+				<div class="setup-step-text">LINE OA connect + base agent config</div>
+			</div>
+			<div class="setup-step">
+				<div class="setup-step-num">Day 2–3</div>
+				<div class="setup-step-text">Property sheet integration + matching logic</div>
+			</div>
+			<div class="setup-step">
+				<div class="setup-step-num">Day 3–4</div>
+				<div class="setup-step-text">Calendar + notification pipeline</div>
+			</div>
+			<div class="setup-step">
+				<div class="setup-step-num">Day 4–5</div>
+				<div class="setup-step-text">Scoring logic + lead log</div>
+			</div>
+			<div class="setup-step">
+				<div class="setup-step-num">Day 5–7</div>
+				<div class="setup-step-text">QA, test conversations, handover</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ═══ PRICING ═══ -->
+<div class="section" id="sec-pricing">
+	<div class="section-title">
+		<div class="section-title-label">Packaging</div>
+		<h2>Pricing Tiers</h2>
+	</div>
+
+	<div class="pricing-grid">
+		<!-- Starter -->
+		<div class="pricing-card">
+			<div class="pricing-name" style="color: var(--text-muted);">Starter</div>
+			<div class="pricing-price">8,000 <span>THB/mo</span></div>
+			<div class="pricing-setup">15,000 one-time setup</div>
+			<div class="pricing-ideal">Small agency, 1–2 agents, under 100 leads/month</div>
+			<div class="pricing-divider">
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">LINE OA integration only</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">Basic 5-question qualifier</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">Google Sheet property matching (up to 50 listings)</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">Manual calendar booking link</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">Lead log to Google Sheet</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">A/B/C scoring</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--text-muted);">✓</span><span class="pricing-item-text">Email support</span></div>
+				<div class="pricing-item dim"><span class="pricing-check">–</span><span class="pricing-item-text">Web widget</span></div>
+				<div class="pricing-item dim"><span class="pricing-check">–</span><span class="pricing-item-text">Auto calendar booking</span></div>
+				<div class="pricing-item dim"><span class="pricing-check">–</span><span class="pricing-item-text">Agent notify</span></div>
+				<div class="pricing-item dim"><span class="pricing-check">–</span><span class="pricing-item-text">Analytics dashboard</span></div>
+			</div>
+		</div>
+
+		<!-- Pro -->
+		<div class="pricing-card featured">
+			<div class="pricing-recommended">RECOMMENDED</div>
+			<div class="pricing-name" style="color: var(--gold);">Pro</div>
+			<div class="pricing-price">15,000 <span>THB/mo</span></div>
+			<div class="pricing-setup">25,000 one-time setup</div>
+			<div class="pricing-ideal">Mid-size agency, 3–5 agents, 100–300 leads/month</div>
+			<div class="pricing-divider">
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">LINE OA + web widget (dual channel)</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Full qualification + objection handling</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Google Sheets or Airtable, up to 200 listings</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Google Calendar auto-booking</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">LINE Notify + Telegram agent alerts</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Lead scoring + CRM log</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Thai + English language support</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Looker Studio weekly dashboard</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Post-viewing follow-up automation</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--gold);">✓</span><span class="pricing-item-text">Monthly check-in call</span></div>
+			</div>
+		</div>
+
+		<!-- Agency+ -->
+		<div class="pricing-card">
+			<div class="pricing-name" style="color: var(--teal);">Agency+</div>
+			<div class="pricing-price">25,000 <span>THB/mo</span></div>
+			<div class="pricing-setup">40,000 one-time setup</div>
+			<div class="pricing-ideal">Larger agency or group, multi-agent, multi-project</div>
+			<div class="pricing-divider">
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Everything in Pro</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Multi-agent routing (by area or tier)</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Existing CRM integration (HubSpot, custom)</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Russian language support added</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Seasonal campaign sequences</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Custom branded web widget</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Priority support + weekly calls</span></div>
+				<div class="pricing-item"><span class="pricing-check" style="color: var(--teal);">✓</span><span class="pricing-item-text">Quarterly optimization review</span></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="label">Upsell opportunities</div>
+		<p style="margin: 6px 0 0; color: var(--text-dim); font-size: 13px; line-height: 1.8;">
+			Rental management module (+5K/mo) · Facebook Ads lead intake (+3K/mo) ·
+			WhatsApp Business API integration (+4K/mo) · Custom property matching logic (+one-time 8K) ·
+			Training your client's staff to maintain it (+half day workshop 5K)
+		</p>
+	</div>
+</div>
+
+<!-- ═══ PITCH ═══ -->
+<div class="section" id="sec-pitch">
+	<div class="section-title">
+		<div class="section-title-label">Sales Framing</div>
+		<h2>How to Sell This</h2>
+	</div>
+
+	<div class="card accent">
+		<div class="label">The one-liner that closes</div>
+		<p style="margin: 8px 0 0; color: var(--text-bright); font-size: 16px; line-height: 1.7; font-style: italic;">
+			"One qualified lead in Phuket real estate is worth 50,000–500,000 THB in commission.
+			This system costs 15,000 THB a month. You need it to pay for itself once a quarter.
+			The math is not complicated."
+		</p>
+	</div>
+
+	<div style="margin-top: 20px;">
+		<div class="label">Objection handling — client side</div>
+
+		<div class="card">
+			<div class="objection-q">"We already have a LINE OA"</div>
+			<div class="objection-a">Good — we integrate with it. No migration, no new account. We just make it intelligent.</div>
+		</div>
+		<div class="card">
+			<div class="objection-q">"Our agents prefer personal contact"</div>
+			<div class="objection-a">They'll still do the personal contact — just on pre-qualified leads who already know what they want and when they want to view. No more 11pm "how much condo" messages.</div>
+		</div>
+		<div class="card">
+			<div class="objection-q">"What if the AI says something wrong?"</div>
+			<div class="objection-a">It only communicates from your property sheet and your approved scripts. It doesn't speculate. Any question it can't answer, it says "let me connect you with our team".</div>
+		</div>
+		<div class="card">
+			<div class="objection-q">"We don't have a property database"</div>
+			<div class="objection-a">Google Sheet with 5 columns is enough to start. We build the sheet structure for you in the setup. Most agencies can fill it in 2 hours.</div>
+		</div>
+		<div class="card">
+			<div class="objection-q">"Can we try before we commit?"</div>
+			<div class="objection-a">Yes — we offer a 2-week paid pilot on the Starter tier. You see the leads coming in, you decide. No annual contract required.</div>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="label">Who to target first</div>
+		<p style="margin: 6px 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.8;">
+			Mid-size Phuket agencies (5–15 listings, 2–4 agents) with active LINE OA but no automation.
+			They're big enough to have lead volume problems, small enough to not have IT teams.
+			Check their LINE OA — if response time is slow or replies are inconsistent, that's your in.
+			Facebook and Google reviews mentioning "hard to contact" or "slow response" are buying signals.
+		</p>
+	</div>
+</div>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer id="footer">
+	<a class="icon-link" target="_blank" rel="noopener" href="https://twitter.com/luciusrockwing" aria-label="Twitter">𝕏</a>
+	<a class="icon-link" target="_blank" rel="noopener" href="https://instagram.com/luciusrockwing" aria-label="Instagram">📸</a>
+	<a class="icon-link" href="mailto:luciusrockwing@gmail.com" aria-label="Email">✉️</a>
+</footer>
+
+<script>
+	// ===== Sidebar navigation =====
+	document.querySelector('.sidebar').addEventListener('click', function(e) {
+		if (e.target.tagName !== 'BUTTON') return;
+		const section = e.target.dataset.section;
+
+		// Update sidebar
+		document.querySelectorAll('.sidebar button').forEach(function(b) { b.classList.remove('active'); });
+		e.target.classList.add('active');
+
+		// Update main panel
+		document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+		document.getElementById('sec-' + section).classList.add('active');
+
+		// Scroll to top of panel on mobile
+		if (window.innerWidth <= 800) {
+			document.getElementById('main-panel').scrollIntoView({ behavior: 'smooth' });
+		}
+	});
+
+	// ===== Conversation tabs =====
+	document.getElementById('convo-tabs').addEventListener('click', function(e) {
+		if (e.target.tagName !== 'BUTTON') return;
+		const tab = e.target.dataset.tab;
+
+		// Update pills
+		document.querySelectorAll('#convo-tabs .tab-pill').forEach(function(p) { p.classList.remove('active'); });
+		e.target.classList.add('active');
+
+		// Update panels
+		document.querySelectorAll('.convo-panel').forEach(function(p) { p.classList.remove('active'); });
+		document.getElementById('convo-' + tab).classList.add('active');
+
+		// Show/hide objection principle card
+		document.getElementById('objection-principle').style.display = tab === 'objection' ? 'block' : 'none';
+	});
+</script>
+
+</body>
+</html>
