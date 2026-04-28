@@ -1,223 +1,183 @@
+:root {
+	--color-bg: #09090B;
+	--color-surface: #18181B;
+	--color-border: #27272A;
+	--color-text: #FAFAFA;
+	--color-text-muted: #A1A1AA;
+	--color-text-dim: #71717A;
+	--color-accent: #2563EB;
+	--color-accent-hover: #3B82F6;
+	--color-cta-text: #FAFAFA;
+	--font-heading: 'Archivo', sans-serif;
+	--font-body: 'Space Grotesk', sans-serif;
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--transition-fast: 150ms var(--ease-out);
+	--transition-base: 250ms var(--ease-out);
+	--transition-slow: 400ms var(--ease-in-out);
+	--gap-section: 120px;
+	--gap-content: 24px;
+	--max-width: 720px;
+}
+
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html {
-  text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  -moz-text-size-adjust: none;
-  -ms-text-size-adjust: none;
+	text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
 }
 
 body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
-
-
 
 
 /* Main Page Layout */
 
 #main-content {
-  margin: 225px 425px;
-  display: flex;
-  flex-direction: column;
-  gap: 96px;
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 160px 24px;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-section);
 }
-
-
 
 
 /* Portfolio Header */
 
 #portfolio-header {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-#portfolio-header-image-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex-basis: 50%;
-}
-
-.portfolio-header-image {
-  width: 100%;
-  height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
 
 #portfolio-header-text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-  flex-basis: 50%;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
-
-
 
 
 /* About Section */
 
 #about-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-content);
 }
 
 .about-section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 
+/* Showcase Section */
 
-
-/* Project Section */
-
-#my-work-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+#showcase-section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-content);
 }
-
-.projects-container {
-  display: flex;
-  gap: 34px 16px;
-  flex-wrap: wrap;
-}
-
-    /* Project Cards */
-
-    .project-card {
-      max-width: calc((100% - 32px) / 3);
-      display: flex;
-      flex-direction: column;
-      gap: 34px;
-    }
-
-    .project-card-text-container {
-      flex-direction: column;
-      display: flex;
-      gap: 16px
-    }
-
-    .project-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      object-position: center;
-    }
-
-
 
 
 /* Project Pages */
 
 #project-header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.project-header-image {
-  width: 100%;
-  height: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 #project-details {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .project-details-content {
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
-    /* Project Gallery */
 
-    #project-gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+/* ===== Scroll Entrance Animations ===== */
 
-    .project-gallery-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 34px 16px;
-    }
-
-    .gallery-image-container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .gallery-image-container.half-width {
-      width: calc((100% - 16px) / 2);
-    }
-
-    .gallery-image {
-      width: 100%;
-      height: auto;
-    }
-
-
-/* Extra Extra large devices (large laptops and desktops, 1200px and below) */
-@media only screen and (max-width: 1600px) {
-  #main-content {
-    margin: 225px 275px;
-  }
+/* Skip link — hidden until focused */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: 16px;
+	padding: 8px 16px;
+	background: var(--color-accent);
+	color: var(--color-cta-text);
+	border-radius: 4px;
+	font-family: var(--font-body);
+	font-size: 14px;
+	text-decoration: none;
+	z-index: 100;
+	transition: top 150ms;
 }
 
-/* Extra large devices (large laptops and desktops, 1200px and below) */
-@media only screen and (max-width: 1200px) {
-  #main-content {
-    margin: 225px 175px;
-  }
+.skip-link:focus {
+	top: 16px;
 }
 
-/* Large devices (laptops/desktops, 1000px and below) */
-@media only screen and (max-width: 1000px) {
-  #main-content {
-    margin: 225px 75px;
-  }
+/* Scroll margin on anchor targets */
+#about-section,
+#showcase-section,
+#project-header,
+#project-details {
+	scroll-margin-top: 100px;
 }
 
-/* Small devices (portrait tablets and large phones, 800px and below) */
+.fade-in {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+
+.fade-in--visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fade-in {
+		transition: none;
+		opacity: 1;
+		transform: none;
+	}
+}
+
+
+/* Responsive Breakpoints */
+
 @media only screen and (max-width: 800px) {
-  #main-content {
-    margin: 150px 50px;
-  }
+	#main-content {
+		padding: 120px 20px;
+		gap: 80px;
+	}
 
-  #portfolio-header {
-    flex-direction: column;
-  }
-
-  .project-card {
-    max-width: calc((100% - 16px) / 2);
-  }
+	#portfolio-header {
+		gap: 24px;
+	}
 }
 
-/* Small devices (portrait tablets and large phones, 600px and below) */
 @media only screen and (max-width: 600px) {
-  #main-content {
-    margin: 125px 20px;
-  }
-
-  .project-card {
-    max-width: 100%;
-  }
+	#main-content {
+		padding: 100px 16px;
+		gap: 64px;
+	}
 }
-
-
-
