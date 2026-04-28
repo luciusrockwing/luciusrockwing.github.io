@@ -1,574 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucius Rockwing</title>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      /* Apple Design Tokens */
-      --bg-dark: #000000;
-      --bg-light: #f5f5f7;
-      --text-primary-dark: #ffffff;
-      --text-primary-light: #1d1d1f;
-      --text-secondary-dark: #ffffff;
-      --text-secondary-light: rgba(0, 0, 0, 0.8);
-      --text-tertiary: rgba(0, 0, 0, 0.48);
-      --accent: #0071e3;
-      --link-light: #0066cc;
-      --link-dark: #2997ff;
-      --surface-dark-1: #272729;
-      --surface-dark-2: #1d1d1f;
-      --shadow-card: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-pill: 980px;
-      --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-      --max-width: 980px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: var(--bg-dark);
-      color: var(--text-primary-dark);
-      line-height: 1.47;
-      overflow-x: hidden;
-    }
-
-    /* ── Navigation (Apple Glass) ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      height: 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .logo {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text-primary-dark);
-      letter-spacing: -0.374px;
-      text-decoration: none;
-    }
-
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-    .nav-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 400;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover { color: #ffffff; }
-
-    /* ── Section Base ── */
-    section {
-      width: 100%;
-      padding: 7rem 2rem;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-    }
-
-    section.dark { background: var(--bg-dark); color: var(--text-primary-dark); }
-    section.light { background: var(--bg-light); color: var(--text-primary-light); }
-
-    /* Galaxy Hero Background */
-    .hero-galaxy {
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-galaxy::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('assets/galaxy-bg.jpg') center/cover no-repeat;
-      opacity: 0.35;
-      z-index: 0;
-    }
-    .hero-galaxy::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, 
-        rgba(0,0,0,0.3) 0%, 
-        rgba(0,0,0,0.1) 40%, 
-        rgba(0,0,0,0.6) 80%, 
-        rgba(0,0,0,0.95) 100%
-      );
-      z-index: 1;
-    }
-    .hero-galaxy .container { position: relative; z-index: 2; }
-
-    .container { max-width: var(--max-width); width: 100%; }
-
-    /* ── Typography (Apple Scale) ── */
-    .display-hero {
-      font-size: clamp(2rem, 6vw, 56px);
-      font-weight: 600;
-      line-height: 1.07;
-      letter-spacing: -0.28px;
-      margin-bottom: 0.5rem;
-    }
-
-    .section-heading {
-      font-size: clamp(1.75rem, 4vw, 40px);
-      font-weight: 600;
-      line-height: 1.10;
-      margin-bottom: 0.75rem;
-    }
-
-    .tile-heading {
-      font-size: clamp(1.25rem, 2.5vw, 28px);
-      font-weight: 400;
-      line-height: 1.14;
-      letter-spacing: 0.196px;
-      margin-bottom: 0.5rem;
-    }
-
-    .sub-heading {
-      font-size: 21px;
-      font-weight: 400;
-      line-height: 1.19;
-      letter-spacing: 0.231px;
-      margin-bottom: 1.5rem;
-    }
-
-    .body-text {
-      font-size: 17px;
-      font-weight: 400;
-      line-height: 1.47;
-      letter-spacing: -0.374px;
-    }
-
-    .caption {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.29;
-      letter-spacing: -0.224px;
-    }
-
-    .text-secondary { opacity: 0.8; }
-    .text-tertiary { opacity: 0.48; }
-
-    /* ── Buttons (Apple) ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-family: var(--font);
-      text-decoration: none;
-      transition: all 0.3s;
-      cursor: pointer; border: none;
-    }
-
-    .btn-blue {
-      background: var(--accent);
-      color: #ffffff;
-      padding: 8px 15px;
-      border-radius: var(--radius-sm);
-      font-size: 17px; font-weight: 400;
-      line-height: 2.41;
-    }
-    .btn-blue:hover { background: #0077ed; }
-
-    .btn-dark {
-      background: var(--surface-dark-2);
-      color: #ffffff;
-      padding: 8px 15px;
-      border-radius: var(--radius-sm);
-      font-size: 17px; font-weight: 400;
-      line-height: 2.41;
-    }
-    .btn-dark:hover { background: #2a2a2d; }
-
-    .btn-pill {
-      background: transparent;
-      padding: 6px 14px;
-      border-radius: var(--radius-pill);
-      font-size: 14px; font-weight: 400;
-      line-height: 1.43;
-      letter-spacing: -0.224px;
-    }
-
-    .btn-pill-light {
-      color: var(--link-light);
-      border: 1px solid var(--link-light);
-    }
-    .btn-pill-light:hover { background: rgba(0, 113, 227, 0.08); }
-
-    .btn-pill-dark {
-      color: var(--link-dark);
-      border: 1px solid var(--link-dark);
-    }
-    .btn-pill-dark:hover { background: rgba(41, 151, 255, 0.08); }
-
-    .link-arrow {
-      color: var(--link-light);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: -0.224px;
-    }
-    .link-arrow:hover { text-decoration: underline; }
-    .link-arrow::after { content: ' ›'; }
-
-    .dark .link-arrow { color: var(--link-dark); }
-
-    .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
-
-    /* ── Hero ── */
-    .hero { min-height: 100vh; padding-top: 10rem; }
-
-    .hero-overline {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--accent);
-      letter-spacing: -0.224px;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-
-    .hero .sub-heading {
-      color: rgba(255, 255, 255, 0.8);
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* ── Stats ── */
-    .stats-row {
-      display: flex; justify-content: center; gap: 4rem;
-      padding: 3rem 0;
-      flex-wrap: wrap;
-    }
-
-    .stat-value {
-      font-size: clamp(2rem, 4vw, 48px);
-      font-weight: 600;
-      line-height: 1.07;
-      letter-spacing: -0.28px;
-      color: var(--accent);
-    }
-
-    .stat-label {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: -0.12px;
-      text-transform: uppercase;
-      margin-top: 0.25rem;
-      opacity: 0.48;
-    }
-
-    /* ── Showcase Grid (Apple Product Tiles) ── */
-    .showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 12px;
-      margin-top: 3rem;
-    }
-
-    .tile {
-      background: #ffffff;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      position: relative;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .tile:hover {
-      transform: scale(1.01);
-    }
-
-    .tile-preview {
-      height: 240px;
-      background: var(--bg-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 4rem;
-      opacity: 0.6;
-    }
-
-    .tile-body {
-      padding: 1.5rem;
-      text-align: left;
-    }
-
-    .tile-body .tile-heading {
-      color: var(--text-primary-light);
-    }
-
-    .tile-body p {
-      color: var(--text-secondary-light);
-      font-size: 14px;
-      line-height: 1.29;
-      letter-spacing: -0.224px;
-      margin-bottom: 1rem;
-    }
-
-    .tile-body .link-arrow { margin-right: 1rem; }
-
-    /* ── Featured Tile (wide) ── */
-    .tile-featured {
-      grid-column: 1 / -1;
-      background: var(--bg-dark);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 400px;
-    }
-
-    .tile-featured .tile-preview {
-      background: var(--surface-dark-1);
-      height: 100%;
-      min-height: 400px;
-    }
-
-    .tile-featured .tile-body {
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 3rem;
-      text-align: left;
-    }
-
-    .tile-featured .tile-heading {
-      color: var(--text-primary-dark);
-      font-size: clamp(1.5rem, 3vw, 28px);
-    }
-
-    .tile-featured p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 17px;
-      line-height: 1.47;
-      letter-spacing: -0.374px;
-    }
-
-    .tile-featured .link-arrow { color: var(--link-dark); }
-
-    /* Dark tile variant */
-    .tile-dark {
-      background: var(--surface-dark-1);
-    }
-
-    .tile-dark .tile-preview {
-      background: var(--surface-dark-2);
-    }
-
-    .tile-dark .tile-body .tile-heading { color: #ffffff; }
-    .tile-dark .tile-body p { color: rgba(255, 255, 255, 0.8); }
-    .tile-dark .tile-body .link-arrow { color: var(--link-dark); }
-
-    /* ── Contact Section ── */
-    .contact-links {
-      display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
-      margin-top: 1.5rem;
-    }
-
-    .contact-links a {
-      color: var(--link-dark);
-      text-decoration: none;
-      font-size: 17px;
-      font-weight: 400;
-      letter-spacing: -0.374px;
-    }
-    .contact-links a:hover { text-decoration: underline; }
-
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    footer p {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: -0.12px;
-      color: rgba(255, 255, 255, 0.48);
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-      nav { padding: 0 1rem; }
-      .nav-links { display: none; }
-      section { padding: 5rem 1.5rem; }
-      .tile-featured { grid-template-columns: 1fr; }
-      .tile-featured .tile-preview { min-height: 250px; height: 250px; }
-      .tile-featured .tile-body { padding: 2rem; }
-      .stats-row { gap: 2rem; }
-    }
-
-    /* ── Scroll Reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Navigation -->
-  <nav>
-    <a href="#" class="logo">Lucius</a>
-    <ul class="nav-links">
-      <li><a href="#showcase">Showcase</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero (Dark + Galaxy) -->
-  <section class="dark hero hero-galaxy" id="about">
-    <div class="container">
-      <p class="hero-overline">Portfolio</p>
-      <h1 class="display-hero">Lucius Rockwing.</h1>
-      <p class="sub-heading">Crafting digital experiences with precision, purpose, and a relentless pursuit of the extraordinary.</p>
-      <div class="cta-group">
-        <a href="#showcase" class="btn btn-pill btn-pill-dark">View Showcase ›</a>
-        <a href="#contact" class="btn btn-blue">Get in Touch</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats (Dark) -->
-  <section class="dark" style="padding: 2rem 2rem 5rem;">
-    <div class="container">
-      <div class="stats-row">
-        <div style="text-align:center;">
-          <div class="stat-value">7+</div>
-          <div class="stat-label">Projects</div>
-        </div>
-        <div style="text-align:center;">
-          <div class="stat-value">∞</div>
-          <div class="stat-label">Curiosity</div>
-        </div>
-        <div style="text-align:center;">
-          <div class="stat-value">24/7</div>
-          <div class="stat-label">Creating</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Showcase (Light) -->
-  <section class="light" id="showcase">
-    <div class="container">
-      <h2 class="section-heading">Selected Works.</h2>
-      <p class="body-text text-secondary" style="max-width:550px; margin:0 auto;">A curated collection of projects and experiments.</p>
-
-      <div class="showcase-grid">
-
-        <!-- Featured (Full Width, Dark) -->
-        <div class="tile-featured reveal">
-          <div class="tile-preview">🚀</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Flagship Project</h3>
-            <p>The centerpiece — a bold fusion of design and engineering. Details coming soon as this vision takes shape.</p>
-            <div>
-              <a href="#" class="link-arrow">Learn more</a>
-              <a href="#" class="link-arrow">View</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tile 1 -->
-        <div class="tile reveal">
-          <div class="tile-preview">🎨</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Creative Experiment</h3>
-            <p>Exploring the boundary between code and canvas. Digital art through algorithms and imagination.</p>
-            <a href="#" class="link-arrow">Learn more</a>
-          </div>
-        </div>
-
-        <!-- Tile 2 (Dark) -->
-        <div class="tile tile-dark reveal">
-          <div class="tile-preview">⚡</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Tool / Utility</h3>
-            <p>Built to solve real problems with clean, efficient solutions. Function meets form.</p>
-            <a href="#" class="link-arrow">Learn more</a>
-          </div>
-        </div>
-
-        <!-- Tile 3 -->
-        <div class="tile reveal">
-          <div class="tile-preview">🎵</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Sound Design</h3>
-            <p>Sonic landscapes and audio experiments. Where rhythm meets technology.</p>
-            <a href="#" class="link-arrow">Learn more</a>
-          </div>
-        </div>
-
-        <!-- Tile 4 (Dark) -->
-        <div class="tile tile-dark reveal">
-          <div class="tile-preview">🔮</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Interactive Experience</h3>
-            <p>WebGL, animations, and immersive interfaces. The web as a creative medium.</p>
-            <a href="#" class="link-arrow">Learn more</a>
-          </div>
-        </div>
-
-        <!-- Tile 5 -->
-        <div class="tile reveal">
-          <div class="tile-preview">📐</div>
-          <div class="tile-body">
-            <h3 class="tile-heading">Open Source</h3>
-            <p>Contributing back to the community. Tools and libraries built for everyone.</p>
-            <a href="#" class="link-arrow">Learn more</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact (Dark) -->
-  <section class="dark" id="contact">
-    <div class="container">
-      <h2 class="section-heading">Let's create something<br>extraordinary.</h2>
-      <p class="body-text text-secondary" style="max-width:500px; margin:0 auto;">Open to collaboration, creative projects, and bold ideas.</p>
-      <div class="contact-links">
-        <a href="mailto:hello@luciusrockwing.com">Email ›</a>
-        <a href="#">GitHub ›</a>
-        <a href="#">Twitter ›</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2026 Lucius Rockwing. All rights reserved.</p>
-  </footer>
-
-  <!-- Scroll Reveal -->
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
-
-</body>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="./assets/images/1311.png" />
+		<title>Lucius Rockwing — Portfolio</title>
+		<meta name="description" content="Showcase portfolio of Lucius Rockwing.">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="./css/layout.css">
+		<link rel="stylesheet" href="./css/typography.css">
+		<link rel="stylesheet" href="./css/utilities.css">
+
+		<script defer src="./js/script.js"></script>
+	</head>
+	<body>
+	<!-- NAVBAR -->
+	<div class="navbar">
+		<a class="nav-title-link" href="./index.html">
+			<span class="nav-title">Lucius Rockwing</span>
+		</a>
+		<a class="button" href="mailto:luciusrockwing@gmail.com">
+			<span class="button-text">Contact</span>
+		</a>
+	</div>
+
+	<!-- MAIN PAGE CONTENT -->
+	<div id="main-content">
+
+	<!-- PORTFOLIO HEADER -->
+	<div id="portfolio-header">
+		<div id="portfolio-header-image-container">
+			<img src="./assets/images/1311.png" class="portfolio-header-image">
+			<span class="image-caption">Lucius Rockwing</span>
+		</div>
+
+		<div id="portfolio-header-text-container">
+			<div class="header-text">
+				<span class="main-title">Hey, I'm Lucius.</span>
+				<div class="body-text">Creator, builder, and visionary. This is my showcase — a collection of projects, ideas, and things I've brought to life.</div>
+			</div>
+			<a class="button" id="my-work-link">
+				<span class="button-text">See my work</span> 
+				<image src="./assets/icons/arrow-right.svg" class="right-arrow-icon"/>
+			</a>
+		</div>
+	</div>
+
+	<!-- ABOUT SECTION -->
+	<div id="about-section">
+		<span class="subheader-text">About Me</span>
+		<div class="about-section-content">
+			<div class="body-text">I'm Lucius Rockwing — a multidisciplinary creative with a passion for building things that matter. From digital experiences to tangible projects, I thrive at the intersection of design, technology, and storytelling.</div>
+			<div class="body-text">Every project here represents something I've poured energy into. Browse the showcase below to see what I've been working on, and reach out if anything sparks your interest.</div>
+		</div>
+	</div>
+
+	<!-- PROJECTS / SHOWCASE SECTION -->
+	<div id="my-work-section">
+		<span class="subheader-text">Showcase</span>
+
+		<div class="projects-container">
+			<div class="project-card">
+				<img src="./assets/images/desktop.jpeg" class="project-image">
+				<div class="project-card-text-container">
+					<div class="subheader-text project-title">Project One</div>
+					<div class="body-text project-card-text">A showcase project placeholder. Replace this with your real project — add images, descriptions, and a dedicated project page.</div>
+				</div>
+				<a class="button" href="./project-pages/project-template.html">
+					<span class="button-text">Read More</span>
+					<image src="./assets/icons/arrow-right.svg" class="right-arrow-icon"/>
+				</a>
+			</div>
+			<div class="project-card">
+				<img src="./assets/images/code.jpeg" class="project-image">
+				<div class="project-card-text-container">
+					<div class="subheader-text project-title">Project Two</div>
+					<div class="body-text project-card-text">Another showcase slot waiting for your work. Swap the image, name, and description with something real.</div>
+				</div>
+				<a class="button" href="./project-pages/project-template.html">
+					<span class="button-text">Read More</span>
+					<image src="./assets/icons/arrow-right.svg" class="right-arrow-icon"/>
+				</a>
+			</div>
+			<div class="project-card">
+				<img src="./assets/images/sketchbook.jpeg" class="project-image">
+				<div class="project-card-text-container">
+					<div class="subheader-text project-title">Project Three</div>
+					<div class="body-text project-card-text">Third showcase slot. Duplicate or delete cards as needed — this template is yours to shape.</div>
+				</div>
+				<a class="button" href="./project-pages/project-template.html">
+					<span class="button-text">Read More</span>
+					<image src="./assets/icons/arrow-right.svg" class="right-arrow-icon"/>
+				</a>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<!-- FOOTER -->
+	<div id="footer">
+		<a class="icon-link" target="_blank" href="https://twitter.com/luciusrockwing">
+			<image src="./assets/icons/twitter.svg" class="footer-icon"/>
+		</a>
+		<a class="icon-link" target="_blank" href="https://instagram.com/luciusrockwing">
+			<image src="./assets/icons/instagram.svg" class="footer-icon"/>
+		</a>
+		<a class="icon-link" href="mailto:luciusrockwing@gmail.com">
+			<image src="./assets/icons/mail.svg" class="footer-icon"/>
+		</a>
+	</div>
+
+	</body>
 </html>
