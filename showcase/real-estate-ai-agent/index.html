@@ -769,7 +769,7 @@
 	<p class="body-text-muted" style="margin-bottom: 28px;">
 		This is your core service offer: a done-for-you AI agent deployment for real estate agencies.
 		You configure it, you hand it over, they pay monthly. The playbook below covers everything
-		from the sales pitch to the exact tech stack — refined specifically for the Thai property market.
+		from the sales pitch to the exact tech stack. Refined specifically for the Thai property market.
 	</p>
 
 	<div class="stats-grid">
@@ -804,7 +804,7 @@
 		<ul class="dim">
 			<li>You don't maintain their property database (they do)</li>
 			<li>You don't handle post-sale or contract management</li>
-			<li>You don't guarantee lead volume — you guarantee lead quality</li>
+			<li>You don't guarantee lead volume, you guarantee lead quality</li>
 		</ul>
 	</div>
 </div>
@@ -832,7 +832,7 @@
 		</div>
 		<div class="card">
 			<div class="label">Repetitive early questions</div>
-			<p style="margin: 6px 0 0; color: var(--color-text-muted); font-size: 14px; line-height: 1.7;">90% of incoming messages are qualification-stage. Perfect for automation — zero nuance required.</p>
+			<p style="margin: 6px 0 0; color: var(--color-text-muted); font-size: 14px; line-height: 1.7;">90% of incoming messages are qualification-stage. Perfect for automation. No judgment calls needed.</p>
 		</div>
 		<div class="card">
 			<div class="label">After-hours volume</div>
@@ -848,7 +848,7 @@
 		<div class="label">Phuket-specific context</div>
 		<p style="color: var(--color-text-muted); font-size: 14px; line-height: 1.7; margin: 8px 0 0;">
 			High season (Nov–Apr) floods small agencies with leads they can't process fast enough.
-			Low season, they're chasing cold leads manually. Your agent runs 24/7 regardless —
+			Low season, they're chasing cold leads manually. Your agent runs 24/7 regardless.
 			capturing the peak overflow and re-engaging dormant leads in off-season.
 			Frame it as leveling their capacity without headcount.
 		</p>
@@ -948,7 +948,7 @@
 
 Are you looking to buy or rent? (ซื้อหรือเช่า)</div></div>
 		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Buy</div></div>
-		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Great choice — Phuket is a strong market right now.
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot">Good pick. Phuket is a strong market right now.
 
 What's your approximate budget? (in THB or USD is fine)</div></div>
 		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">Around 4-5 million baht</div></div>
@@ -1031,7 +1031,7 @@ If it helps, I can send you a weekly digest of new listings in your preferred ar
 
 Want me to arrange a quick call — no obligation?</div></div>
 		<div class="chat user"><div class="chat-avatar human">👤</div><div class="chat-bubble human">I need to talk to my wife first</div></div>
-		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Of course — makes total sense for a purchase like this.
+		<div class="chat"><div class="chat-avatar bot">🤖</div><div class="chat-bubble bot highlight">Makes sense for a purchase like this.
 
 Want me to send you a PDF summary of the units you liked? Easy to share with her, includes specs, photos, and price. Takes 2 seconds to forward.</div></div>
 	</div>
@@ -1039,7 +1039,7 @@ Want me to send you a PDF summary of the units you liked? Easy to share with her
 	<div class="card" id="objection-principle" style="display: none;">
 		<div class="label">Design principle</div>
 		<p style="margin: 6px 0 0; color: var(--color-text-dim); font-size: 14px; line-height: 1.7;">
-			Every objection response offers a micro-commitment — something small and useful
+			Every objection response offers a micro-commitment: something small and useful
 			(digest, PDF, call) that keeps the lead warm without pressure. Never a dead-end reply.
 		</p>
 	</div>
@@ -1160,15 +1160,15 @@ Want me to send you a PDF summary of the units you liked? Easy to share with her
 			<tr><th>Component</th><th>Tool</th><th>Why</th></tr>
 		</thead>
 		<tbody>
-			<tr><td>Primary Channel</td><td>LINE Official Account</td><td>Dominant in Thai market — every agency already has one</td></tr>
+			<tr><td>Primary Channel</td><td>LINE Official Account</td><td>Dominant in Thai market. Every agency already has one</td></tr>
 			<tr><td>Secondary Channel</td><td>Web chat widget (Crisp / custom)</td><td>Captures Google/Facebook traffic that doesn't use LINE</td></tr>
-			<tr><td>Agent Gateway</td><td>n8n (self-hosted) or Make.com</td><td>Handles routing logic, webhooks, fallback rules — no vendor lock-in</td></tr>
-			<tr><td>AI Brain</td><td>Claude API (claude-sonnet-4)</td><td>Best at nuanced Thai/EN code-switch, not hallucinating listings</td></tr>
-			<tr><td>Property Data</td><td>Google Sheets + webhook</td><td>Agency already uses this — zero migration friction on Day 1</td></tr>
+			<tr><td>Agent Gateway</td><td>n8n (self-hosted) or Make.com</td><td>Handles routing logic, webhooks, fallback rules. No vendor lock-in</td></tr>
+			<tr><td>AI Brain</td><td>Claude API (claude-sonnet-4)</td><td>Best at Thai/EN code-switch, not hallucinating listings</td></tr>
+			<tr><td>Property Data</td><td>Google Sheets + webhook</td><td>Agency already uses this. Zero migration friction on Day 1</td></tr>
 			<tr><td>Calendar</td><td>Google Calendar API</td><td>Auto-block slots, prevent double-booking, send reminders</td></tr>
-			<tr><td>Agent Notify</td><td>LINE Notify + Telegram bot</td><td>Dual channel — LINE for Thai agents, Telegram as backup</td></tr>
+			<tr><td>Agent Notify</td><td>LINE Notify + Telegram bot</td><td>Dual channel: LINE for Thai agents, Telegram as backup</td></tr>
 			<tr><td>Lead Log</td><td>Google Sheets or Airtable</td><td>Visible to agency without any new software to learn</td></tr>
-			<tr><td>Follow-up Engine</td><td>n8n scheduled triggers</td><td>T+24hr, T+72hr, weekly digest — fully automated</td></tr>
+			<tr><td>Follow-up Engine</td><td>n8n scheduled triggers</td><td>T+24hr, T+72hr, weekly digest. Fully automated</td></tr>
 			<tr><td>Analytics</td><td>Looker Studio (free)</td><td>Weekly dashboard: leads by score, response rate, booking conversion</td></tr>
 		</tbody>
 	</table>
@@ -1296,15 +1296,15 @@ Want me to send you a PDF summary of the units you liked? Easy to share with her
 	</div>
 
 	<div style="margin-top: 20px;">
-		<div class="label">Objection handling — client side</div>
+		<div class="label">Objection handling: client side</div>
 
 		<div class="card">
 			<div class="objection-q">"We already have a LINE OA"</div>
-			<div class="objection-a">Good — we integrate with it. No migration, no new account. We just make it intelligent.</div>
+			<div class="objection-a">Good, we integrate with it. No migration, no new account. We just make it intelligent.</div>
 		</div>
 		<div class="card">
 			<div class="objection-q">"Our agents prefer personal contact"</div>
-			<div class="objection-a">They'll still do the personal contact — just on pre-qualified leads who already know what they want and when they want to view. No more 11pm "how much condo" messages.</div>
+			<div class="objection-a">They'll still do the personal contact. Just on pre-qualified leads who already know what they want and when they want to view. No more 11pm "how much condo" messages.</div>
 		</div>
 		<div class="card">
 			<div class="objection-q">"What if the AI says something wrong?"</div>
@@ -1316,7 +1316,7 @@ Want me to send you a PDF summary of the units you liked? Easy to share with her
 		</div>
 		<div class="card">
 			<div class="objection-q">"Can we try before we commit?"</div>
-			<div class="objection-a">Yes — we offer a 2-week paid pilot on the Starter tier. You see the leads coming in, you decide. No annual contract required.</div>
+			<div class="objection-a">Yes. We offer a 2-week paid pilot on the Starter tier. You see the leads coming in, you decide. No annual contract required.</div>
 		</div>
 	</div>
 
@@ -1325,7 +1325,7 @@ Want me to send you a PDF summary of the units you liked? Easy to share with her
 		<p style="margin: 6px 0 0; color: var(--color-text-muted); font-size: 14px; line-height: 1.8;">
 			Mid-size Phuket agencies (5–15 listings, 2–4 agents) with active LINE OA but no automation.
 			They're big enough to have lead volume problems, small enough to not have IT teams.
-			Check their LINE OA — if response time is slow or replies are inconsistent, that's your in.
+			Check their LINE OA. If response time is slow or replies are inconsistent, that's your in.
 			Facebook and Google reviews mentioning "hard to contact" or "slow response" are buying signals.
 		</p>
 	</div>
